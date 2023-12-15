@@ -1,0 +1,55 @@
+Arguments: 
+  /Users/koolearn/.nvm/versions/node/v16.19.1/bin/node /Users/koolearn/.nvm/versions/node/v16.19.1/bin/yarn add codemirror
+
+PATH: 
+  /Users/koolearn/Library/pnpm:/Users/koolearn/.nvm/versions/node/v16.19.1/bin:/Library/Frameworks/Python.framework/Versions/3.11/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/koolearn/.nvm/versions/node/v16.19.1/bin:/Library/Frameworks/Python.framework/Versions/3.11/bin:/opt/homebrew/bin:/opt/homebrew/sbin
+
+Yarn version: 
+  1.22.19
+
+Node version: 
+  16.19.1
+
+Platform: 
+  darwin arm64
+
+Trace: 
+  Error: ENOENT: no such file or directory, copyfile '/Users/koolearn/Library/Caches/Yarn/v6/npm-globals-13.20.0-ea276a1e508ffd4f1612888f9d1bad1e2717bf82-integrity/node_modules/globals/index.d.ts' -> '/Users/koolearn/Desktop/survey/react-demo-tool/node_modules/@eslint/eslintrc/node_modules/globals/index.d.ts'
+
+npm manifest: 
+  {
+    "private": true,
+    "author": "陈八一 <chenhongshuo@koolearn-inc.com>",
+    "scripts": {
+      "dev": "max dev",
+      "build": "max build",
+      "format": "prettier --cache --write .",
+      "prepare": "husky install",
+      "postinstall": "max setup",
+      "setup": "max setup",
+      "start": "npm run dev"
+    },
+    "dependencies": {
+      "@ant-design/icons": "^5.1.4",
+      "@ant-design/pro-components": "^2.6.8",
+      "@umijs/max": "^4.0.72",
+      "antd": "^5.7.3",
+      "codemirror": "^6.0.1"
+    },
+    "devDependencies": {
+      "@types/react": "^18.2.16",
+      "@types/react-dom": "^18.2.7",
+      "husky": "^8.0.3",
+      "lint-staged": "^13.2.3",
+      "prettier": "^3.0.0",
+      "prettier-plugin-organize-imports": "^3.2.3",
+      "prettier-plugin-packagejson": "^2.4.5",
+      "typescript": "^5.1.6"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
