@@ -54,6 +54,16 @@ export default defineConfig({
       path: '/md-demo',
       component: './Markdown',
     },
+    {
+      name: 'Markdown-Marked',
+      path: '/md-marked',
+      component: './MarkdownMarked',
+    },
+    {
+      name: 'EditorTable-Antd',
+      path: '/editor-table-antd',
+      component: './EditorTableAntd',
+    },
   ],
   npmClient: 'pnpm',
 });
