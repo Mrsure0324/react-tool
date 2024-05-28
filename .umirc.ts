@@ -64,6 +64,16 @@ export default defineConfig({
       path: '/editor-table-antd',
       component: './EditorTableAntd',
     },
+    {
+      name: 'ReactGridLayout',
+      path: '/ReactGridLayout',
+      component: './ReactGridLayout',
+    },
+    {
+      name: 'ReactConditionFilterDemo',
+      path: '/ReactConditionFilterDemo',
+      component: './ReactConditionFilterDemo',
+    },
   ],
   npmClient: 'pnpm',
 });
