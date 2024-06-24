@@ -4,3 +4,38 @@
     justify-content: space-between;
     align-items: center;
 }
+
+.box {
+    position: relative;
+    // background-color: transparent;
+    // background-color: #fff;
+    background: url(https://wallpapers.com/images/high/minimalist-uno-card-deck-jey3renjsoclg1bw.webp);
+    // background-size:  100%;
+    :global {
+        .ant-page-header-heading-title {
+            color: #fff;
+        }
+    }
+}
+.box:after{
+    content: '';
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: url(https://wallpapers.com/images/high/uno-family-card-game-poster-e1kf9dtuc6imw4xm.webp) no-repeat;
+    background-size: 100% 100%;
+    // opacity: 0.5;
+    z-index: -1
+}
+.inner {
+    padding: 26px;
+    background: #fff;
+    border-radius: 16px;
+    opacity: 1;
+    min-height: calc(100vh - 100px);
+}
