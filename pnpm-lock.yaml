@@ -11,12 +11,18 @@ dependencies:
   '@ant-design/pro-components':
     specifier: ^2.6.8
     version: 2.6.8(antd@5.7.3)(rc-field-form@1.44.0)(react-dom@18.3.1)(react@18.3.1)
+  '@reduxjs/toolkit':
+    specifier: ^2.2.5
+    version: 2.2.5(react-redux@9.1.2)(react@18.3.1)
   '@types/react-resizable':
     specifier: ^3.0.7
     version: 3.0.7
   '@umijs/max':
     specifier: ^4.0.72
     version: 4.0.72(@babel/core@7.24.5)(@types/react-dom@18.2.7)(@types/react@18.2.16)(dva@2.5.0-beta.2)(postcss@8.4.38)(prettier@3.0.0)(rc-field-form@1.44.0)(react-dom@18.3.1)(react@18.3.1)(styled-components@6.1.11)(typescript@5.1.6)(webpack@5.91.0)
+  ahooks:
+    specifier: ^3.8.0
+    version: 3.8.0(react@18.3.1)
   antd:
     specifier: ^5.7.3
     version: 5.7.3(react-dom@18.3.1)(react@18.3.1)
@@ -41,6 +47,9 @@ dependencies:
   react-markdown-editor-lite:
     specifier: ^1.3.4
     version: 1.3.4(react@18.3.1)
+  react-redux:
+    specifier: ^9.1.2
+    version: 9.1.2(@types/react@18.2.16)(react@18.3.1)(redux@4.2.1)
   react-resizable:
     specifier: ^3.0.5
     version: 3.0.5(react-dom@18.3.1)(react@18.3.1)
@@ -3583,6 +3592,25 @@ packages:
       react-dom: 18.3.1(react@18.3.1)
     dev: false
 
+  /@reduxjs/toolkit@2.2.5(react-redux@9.1.2)(react@18.3.1):
+    resolution: {integrity: sha512-aeFA/s5NCG7NoJe/MhmwREJxRkDs0ZaSqt0MxhWUrwCf1UQXpwR87RROJEql0uAkLI6U7snBOYOcKw83ew3FPg==}
+    peerDependencies:
+      react: ^16.9.0 || ^17.0.0 || ^18
+      react-redux: ^7.2.1 || ^8.1.3 || ^9.0.0
+    peerDependenciesMeta:
+      react:
+        optional: true
+      react-redux:
+        optional: true
+    dependencies:
+      immer: 10.1.1
+      react: 18.3.1
+      react-redux: 9.1.2(@types/react@18.2.16)(react@18.3.1)(redux@4.2.1)
+      redux: 5.0.1
+      redux-thunk: 3.1.0(redux@5.0.1)
+      reselect: 5.1.0
+    dev: false
+
   /@sinclair/typebox@0.27.8:
     resolution: {integrity: sha512-+Fj43pSMwJs4KRrH/938Uf+uAELIgVBmQzg/q1YG10djyfA3TnrU8N8XzqCh/okZdszqBQTZf96idMfE5lnwTA==}
     dev: false
@@ -3852,7 +3880,7 @@ packages:
     resolution: {integrity: sha512-hy8b7Y1J8OGe6LbAjj3xniQrj3v6lsivCcrmf4TzSgPzLkhIeKgc5IZnT7ReIqmEuodjfO8EYAuoFvIrHi/+jQ==}
     deprecated: This is a stub types definition. history provides its own type definitions, so you do not need this installed.
     dependencies:
-      history: 4.10.1
+      history: 5.3.0
     dev: false
 
   /@types/hoist-non-react-statics@3.3.1:
@@ -3962,7 +3990,7 @@ packages:
       '@types/history': 4.7.11
       '@types/react': 18.3.2
       '@types/react-router': 5.1.20
-      redux: 3.7.2
+      redux: 5.0.1
     dev: false
 
   /@types/react-router@5.1.20:
@@ -4909,6 +4937,24 @@ packages:
       clean-stack: 2.2.0
       indent-string: 4.0.0
     dev: true
+
+  /ahooks@3.8.0(react@18.3.1):
+    resolution: {integrity: sha512-M01m+mxLRNNeJ/PCT3Fom26UyreTj6oMqJBetUrJnK4VNI5j6eMA543Xxo53OBXn6XibA2FXKcCCgrT6YCTtKQ==}
+    engines: {node: '>=8.0.0'}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    dependencies:
+      '@babel/runtime': 7.24.5
+      dayjs: 1.11.9
+      intersection-observer: 0.12.2
+      js-cookie: 2.2.1
+      lodash: 4.17.21
+      react: 18.3.1
+      react-fast-compare: 3.2.2
+      resize-observer-polyfill: 1.5.1
+      screenfull: 5.2.0
+      tslib: 2.6.2
+    dev: false
 
   /ajv-keywords@3.5.2(ajv@6.12.6):
     resolution: {integrity: sha512-5p6WTN0DdTGVQk6VjcEju19IgaHudalcfabD7yhDGeA6bcQnmL+CpveLJq/3hvfwd1aof6L386Ougkx6RfyMIQ==}
@@ -7583,6 +7629,10 @@ packages:
     dev: false
     optional: true
 
+  /immer@10.1.1:
+    resolution: {integrity: sha512-s2MPrmjovJcoMaHtx6K11Ra7oD05NT97w1IC5zpMkT6Atjr7H8LjaDd81iIxUYpMKSRRNMJE703M1Fhr/TctHw==}
+    dev: false
+
   /immer@8.0.4:
     resolution: {integrity: sha512-jMfL18P+/6P6epANRvRk6q8t+3gGhqsJ9EuJ25AXE+9bNTYtssvzeYbEd0mXRYWCmmXSIbnlpz6vd6iJlmGGGQ==}
     dev: false
@@ -7645,6 +7695,10 @@ packages:
       get-intrinsic: 1.2.1
       has: 1.0.3
       side-channel: 1.0.4
+    dev: false
+
+  /intersection-observer@0.12.2:
+    resolution: {integrity: sha512-7m1vEcPCxXYI8HqnL8CKI6siDyD+eIWSwgB3DZA+ZTogxk9I4CDnj4wilt9x/+/QbHI4YG5YZNmC6458/e9Ktg==}
     dev: false
 
   /intl-format-cache@4.3.1:
@@ -8074,6 +8128,10 @@ packages:
       jest-util: 29.6.1
       merge-stream: 2.0.0
       supports-color: 8.1.1
+    dev: false
+
+  /js-cookie@2.2.1:
+    resolution: {integrity: sha512-HvdH2LzI/EAZcUwA8+0nKNtWHqS+ZmijLA30RwZA0bo7ToCckjK5MkGhjED9KoRcXO6BaGI3I9UIzSA1FKFPOQ==}
     dev: false
 
   /js-sdsl@4.4.2:
@@ -11224,6 +11282,25 @@ packages:
       use-sync-external-store: 1.2.0(react@18.3.1)
     dev: false
 
+  /react-redux@9.1.2(@types/react@18.2.16)(react@18.3.1)(redux@4.2.1):
+    resolution: {integrity: sha512-0OA4dhM1W48l3uzmv6B7TXPCGmokUU4p1M44DGN2/D9a1FjVPukVjER1PcPX97jIg6aUeLq1XJo1IpfbgULn0w==}
+    peerDependencies:
+      '@types/react': ^18.2.25
+      react: ^18.0
+      redux: ^5.0.0
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+      redux:
+        optional: true
+    dependencies:
+      '@types/react': 18.2.16
+      '@types/use-sync-external-store': 0.0.3
+      react: 18.3.1
+      redux: 4.2.1
+      use-sync-external-store: 1.2.0(react@18.3.1)
+    dev: false
+
   /react-refresh@0.14.0:
     resolution: {integrity: sha512-wViHqhAd8OHeLS/IRMJjTSDHF3U9eWi62F/MledQGPdJGDhodXJ9PBLNGr6WWL7qlH12Mt3TyTpbS+hGXMjCzQ==}
     engines: {node: '>=0.10.0'}
@@ -11411,6 +11488,14 @@ packages:
     resolution: {integrity: sha512-iIjKnRThI5sKPEASpUvySemjzwqwI13e3qP7oLub+FycCRDysLSAOwt958niZW6LhxfmS6Qm1BzbU70w/Koc4w==}
     dev: false
 
+  /redux-thunk@3.1.0(redux@5.0.1):
+    resolution: {integrity: sha512-NW2r5T6ksUKXCabzhL9z+h206HQw/NJkcLm1GPImRQ8IzfXwRGqjVhKJGauHirT0DAuyy6hjdnMZaRoAcy0Klw==}
+    peerDependencies:
+      redux: ^5.0.0
+    dependencies:
+      redux: 5.0.1
+    dev: false
+
   /redux@3.7.2:
     resolution: {integrity: sha512-pNqnf9q1hI5HHZRBkj3bAngGZW/JMCmexDlOxw4XagXY2o1327nHH54LoTjiPJ0gizoqPDRqWyX/00g0hD6w+A==}
     dependencies:
@@ -11424,6 +11509,10 @@ packages:
     resolution: {integrity: sha512-LAUYz4lc+Do8/g7aeRa8JkyDErK6ekstQaqWQrNRW//MY1TvCEpMtpTWvlQ+FPbWCx+Xixu/6SHt5N0HR+SB4w==}
     dependencies:
       '@babel/runtime': 7.22.6
+    dev: false
+
+  /redux@5.0.1:
+    resolution: {integrity: sha512-M9/ELqF6fy8FwmkpnF0S3YKOqMyoWJ4+CS5Efg2ct3oY9daQvd/Pc71FpGZsVsbl3Cpb+IIcjBDUnnyBdQbq4w==}
     dev: false
 
   /reflect.getprototypeof@1.0.3:
@@ -11532,6 +11621,10 @@ packages:
   /require-from-string@2.0.2:
     resolution: {integrity: sha512-Xf0nWe6RseziFMu+Ap9biiUbmplq6S9/p+7w7YXP/JBHhrUDDUhwa+vANyubuqfZWTveU//DYVGsDG7RKL/vEw==}
     engines: {node: '>=0.10.0'}
+    dev: false
+
+  /reselect@5.1.0:
+    resolution: {integrity: sha512-aw7jcGLDpSgNDyWBQLv2cedml85qd95/iszJjN988zX1t7AVRJi19d9kto5+W7oCfQ94gyo40dVbT6g2k4/kXg==}
     dev: false
 
   /resize-observer-polyfill@1.5.1:
@@ -11705,6 +11798,11 @@ packages:
       '@types/json-schema': 7.0.12
       ajv: 6.12.6
       ajv-keywords: 3.5.2(ajv@6.12.6)
+    dev: false
+
+  /screenfull@5.2.0:
+    resolution: {integrity: sha512-9BakfsO2aUQN2K9Fdbj87RJIEZ82Q9IGim7FqM5OsebfoFC6ZHXgDq/KvniuLTPdeM8wY2o6Dj3WQ7KeQCj3cA==}
+    engines: {node: '>=0.10.0'}
     dev: false
 
   /scroll-into-view-if-needed@2.2.31:

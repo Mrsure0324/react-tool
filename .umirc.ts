@@ -74,6 +74,21 @@ export default defineConfig({
       path: '/ReactConditionFilterDemo',
       component: './ReactConditionFilterDemo',
     },
+    {
+      name: 'ReduxDemo',
+      path: '/ReduxDemo',
+      component: './ReduxDemo',
+    },
+    {
+      name: 'Generator',
+      path: '/Generator',
+      component: './Generator',
+    },
+    {
+      name: 'UNO',
+      path: '/UNO',
+      component: './UNO',
+    }
   ],
   npmClient: 'pnpm',
 });
