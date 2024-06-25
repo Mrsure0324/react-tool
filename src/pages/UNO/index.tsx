@@ -41,6 +41,7 @@ const ResultContent = (props: { result: ResultProps[]}) => {
                 footer={false}
                 bordered
                 dataSource={data}
+                style={{width:'100%'}}
                 renderItem={(item) => (
                     <List.Item>
                         <Typography.Text>{item?.name}</Typography.Text> 
@@ -138,8 +139,10 @@ const UNORoom:React.FC<any> = () => {
 
     const createRoom = () => {
         //缓存
-        localforage.setItem('players',[])
-        localforage.setItem('logs',[])
+        localforage.setItem('players',[]);
+        localforage.setItem('logs',[]);
+        setLogs([]);
+        setPlayers([]);
     }
 
     const deleteLog = (row:any,index:number) => {
@@ -268,8 +271,8 @@ const UNORoom:React.FC<any> = () => {
         // console.log(newLogs);
         Modal.info({
             width: '80%',
-            icon: false,
-            title: <>🏆🏆🏆结算页面🏆🏆🏆</>,
+            icon: <></>,
+            title: <><p>🏆🏆🏆结算页面🏆🏆🏆</p></>,
             content: <ResultContent result={newLog}></ResultContent>,
             okText: '确定',
             cancelText: '取消',
@@ -333,18 +336,19 @@ const UNORoom:React.FC<any> = () => {
         <>
             <PageContainer title={'UNO计分器'} className={styles['box']} style={{ minHeight: '100vh'}}>
                 <div className={styles['inner']}>
-                    <Form form={form} layout='inline'>
+                    <Form form={form} >
                         <Form.Item rules={[{required: true, message:'你得起个名啊'}]} label="Player Name" name="name">
                             <Input maxLength={8}></Input>
                         </Form.Item>
                         <Form.Item>
                             <Space>
-                            <Button onClick={addPlayer}>创建玩家</Button>
-                            <Button onClick={createRoom}>重开房间</Button>
+                                <Button onClick={addPlayer}>创建玩家</Button>
+                                <Button onClick={createRoom}>重开房间</Button>
                             </Space>
                         </Form.Item>
                     </Form>
                     <Divider/>
+                    <p style={{color: 'orange'}}>注：第一名以及并列第一，直接输入0即可</p>
                     <Space direction="vertical" size="middle" style={{ width: '100%' }}>
                         {
                             players.map((item,index) => {
@@ -385,6 +389,7 @@ const UNORoom:React.FC<any> = () => {
             </PageContainer>
             <Drawer title={'记分板'} width={1200} open={pointDrawerOpen} onClose={() => {setPointDrawerOpen(false)}}>
                 <Table
+                    scroll={{x: 'max-content'}}
                     dataSource={dataSource}
                     columns={columns}
                     pagination={false}

@@ -36,6 +36,28 @@
     // padding: 26px;
     background: #fff;
     border-radius: 16px;
-    opacity: 1;
     min-height: calc(100vh - 100px);
+    width: 100%;
+    // overflow: hidden;
+
+    :global {
+        .result-modal {
+            .ant-modal-confirm-body {
+                svg {
+                    display: none !important;
+                }
+            }
+            .anticon-info-circle {
+                
+            }
+        }
+        :where(.css-dev-only-do-not-override-txh9fw).ant-modal-confirm .ant-modal-confirm-body .ant-modal-confirm-title +.ant-modal-confirm-content {
+            max-width: 100%;
+        }
+    }
 }
+
+.result-modal {
+
+}
+
