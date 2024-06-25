@@ -88,7 +88,7 @@ export default defineConfig({
       name: 'UNO',
       path: '/UNO',
       component: './UNO',
-    }
+    },
   ],
   npmClient: 'pnpm',
   esbuildMinifyIIFE: true,
