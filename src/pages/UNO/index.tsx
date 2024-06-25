@@ -5,6 +5,8 @@ import { cloneDeep } from 'lodash';
 import { PageContainer } from '@ant-design/pro-components';
 import moment from 'moment';
 import localforage from 'localforage'
+import { bestWealthDistribution } from './tool';
+const { Text, Link } = Typography;
 export interface PlayerProps {
     description: string;
     name: string;
@@ -62,8 +64,8 @@ const UNORoom:React.FC<any> = () => {
     const [form] = Form.useForm();
     const [logs,setLogs] = React.useState<any[]>([]);
     const [pointDrawerOpen,setPointDrawerOpen] = React.useState<boolean>(false);
-    const [computedLock,setComputedLock] = React.useState<boolean>(false);
-
+    const [computedLock,setComputedLock] = React.useState<boolean>(true);
+    const [totalInfo,setTotalInfo] = React.useState<any>({});
 
     useEffect(() => {
         if(isInit) {
@@ -92,6 +94,7 @@ const UNORoom:React.FC<any> = () => {
             totalInfo[item.name] = computedUserPointTotal(item.name)
         })
         newLogs.push(totalInfo);
+        setTotalInfo(totalInfo)
         return newLogs;
     },[logs,players])
     
@@ -101,7 +104,8 @@ const UNORoom:React.FC<any> = () => {
                 title: item.name,
                 dataIndex: item.name,
                 key: item.name,
-                render(point:number) {
+                render(text:number) {
+                    const point = Math.round(text * 100) / 100;
                     return (
                         <>
                             {Number(point) > 0 && <span style={{color:'red'}}>{`+${point}`}</span>}
@@ -332,6 +336,41 @@ const UNORoom:React.FC<any> = () => {
         }
     }
 
+    const moneyAllocation = () => {
+        
+        const info = cloneDeep(totalInfo);
+        delete info.date;
+        const arr = [];
+        for(let key in info) {
+            arr.push({
+                name: key,
+                point: info[key],
+            })
+        }
+        arr.sort((a,b) => b.point - a.point);
+        const plans = bestWealthDistribution(arr);
+        
+        Modal.info({
+            width: '80%',
+            icon: <></>,
+            title: <><p>💰💰💰💰💰💰💰</p></>,
+            content: (<>
+                {
+                    plans.map(item => {
+                        return <p>
+                            <Text type="success">{item?.loser}</Text> 
+                            <Text>输给</Text> 
+                            <Text type='danger'>{item?.winner}</Text>
+                            <Text mark>{Math.round(item?.amount * 10) / 10}</Text>点数
+                        </p>
+                    })
+                }
+            </>),
+            okText: '确定',
+            cancelText: '取消',
+        });  
+    }
+
     return (
         <>
             <PageContainer title={'UNO计分器'} className={styles['box']} style={{ minHeight: '100vh'}}>
@@ -394,6 +433,10 @@ const UNORoom:React.FC<any> = () => {
                     columns={columns}
                     pagination={false}
                 />
+                <Divider/>
+                <Space>
+                    <Button type='primary' onClick={moneyAllocation}>生成结算方案</Button>
+                </Space>
             </Drawer>
         </>
     )
