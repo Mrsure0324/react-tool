@@ -1,19 +1,13 @@
 import React, { useEffect, useMemo } from 'react'
 import styles from './index.less'
-import { Button, Modal, Form, Input, List, Card, Avatar, InputNumber, message, Space, Badge, Divider, Drawer, Table, Typography } from 'antd';
+import { Button, Modal, Form, Input, List, Card, Avatar, InputNumber, message, Space, Badge, Divider, Drawer, Table, Typography, Col, Row, FloatButton } from 'antd';
 import { cloneDeep } from 'lodash';
 import { PageContainer } from '@ant-design/pro-components';
 import moment from 'moment';
 import localforage from 'localforage'
 import { bestWealthDistribution } from './tool';
-const { Text, Link } = Typography;
-export interface PlayerProps {
-    description: string;
-    name: string;
-    avatar?: string;
-    point: number;
-    type: 'winner' | 'loser' | 'normal';
-}
+import { PlayerProps, defaultTeamPlayers } from './config';
+import { ToolOutlined } from '@ant-design/icons';
 
 interface ResultProps {
     rank: number,
@@ -64,6 +58,7 @@ const UNORoom:React.FC<any> = () => {
     const [form] = Form.useForm();
     const [logs,setLogs] = React.useState<any[]>([]);
     const [pointDrawerOpen,setPointDrawerOpen] = React.useState<boolean>(false);
+    const [toolsDrawerOpen,setToolsDrawerOpen] = React.useState<boolean>(false);
     const [computedLock,setComputedLock] = React.useState<boolean>(true);
     const [totalInfo,setTotalInfo] = React.useState<any>({});
 
@@ -93,9 +88,9 @@ const UNORoom:React.FC<any> = () => {
         players.forEach(item => {
             totalInfo[item.name] = computedUserPointTotal(item.name)
         })
-        newLogs.push(totalInfo);
+        // newLogs.push(totalInfo);
         setTotalInfo(totalInfo)
-        return newLogs;
+        return newLogs.reverse();
     },[logs,players])
     
     const columns:any = useMemo(() => {
@@ -104,6 +99,7 @@ const UNORoom:React.FC<any> = () => {
                 title: item.name,
                 dataIndex: item.name,
                 key: item.name,
+                width: Math.max(Math.min(item.name?.length * 25,80), 70),
                 render(text:number) {
                     const point = Math.round(text * 100) / 100;
                     return (
@@ -123,23 +119,23 @@ const UNORoom:React.FC<any> = () => {
                 title:'日期',
                 dataIndex: 'date',
                 key:'date',
-                width: 180,
+                width: 100,
             },
             ...res,
             {
                 title: '操作',
-                width: 80,
+                width: 50,
                 fixed: 'right',
                 render(_:string,row:any,index:number) {
                     return (
                         <>
-                            {index !== logs.length && <Button danger onClick={() => deleteLog(row,index)} type='link'>删除</Button>}
+                            {index !== logs.length && <Button style={{paddingLeft: 0}} danger onClick={() => deleteLog(row,index)} type='link'>删除</Button>}
                         </>
                     )
                 }
             }
         ]
-    },[players]);
+    },[players,logs]);
 
     const createRoom = () => {
         //缓存
@@ -232,7 +228,7 @@ const UNORoom:React.FC<any> = () => {
 
     const resultTurnLog = (result:ResultProps[]) => {
         const item:any = {};
-        item.date = moment().format('YYYY-MM-DD h:mm:ss');
+        item.date = moment().format('HH:mm:ss');
         result.forEach((player,playerInfo) => {
             item[player.name] = player.lastPoint;
         });
@@ -353,16 +349,18 @@ const UNORoom:React.FC<any> = () => {
         Modal.info({
             width: '80%',
             icon: <></>,
-            title: <><p>💰💰💰💰💰💰💰</p></>,
+            title: <>{'结算方案'}</>,
             content: (<>
                 {
                     plans.map(item => {
-                        return <p>
-                            <Text type="success">{item?.loser}</Text> 
-                            <Text>输给</Text> 
-                            <Text type='danger'>{item?.winner}</Text>
-                            <Text mark>{Math.round(item?.amount * 10) / 10}</Text>点数
-                        </p>
+                        return (
+                            <div style={{fontSize:'16px'}}>
+                                <span>【{item?.loser}】</span> 
+                                <span>输给</span> 
+                                <span>【{item?.winner}】</span>
+                                <span style={{color: 'red'}}>{Math.round(item?.amount * 10) / 10 / 10}</span>元
+                            </div>
+                        )
                     })
                 }
             </>),
@@ -371,22 +369,14 @@ const UNORoom:React.FC<any> = () => {
         });  
     }
 
+    const loadDefaultTeam = () => {
+        setPlayers(defaultTeamPlayers)
+    }
+
     return (
         <>
             <PageContainer title={'UNO计分器'} className={styles['box']} style={{ minHeight: '100vh'}}>
                 <div className={styles['inner']}>
-                    <Form form={form} >
-                        <Form.Item rules={[{required: true, message:'你得起个名啊'}]} label="Player Name" name="name">
-                            <Input maxLength={8}></Input>
-                        </Form.Item>
-                        <Form.Item>
-                            <Space>
-                                <Button onClick={addPlayer}>创建玩家</Button>
-                                <Button onClick={createRoom}>重开房间</Button>
-                            </Space>
-                        </Form.Item>
-                    </Form>
-                    <Divider/>
                     <p style={{color: 'orange'}}>注：第一名以及并列第一，直接输入0即可</p>
                     <Space direction="vertical" size="middle" style={{ width: '100%' }}>
                         {
@@ -406,8 +396,8 @@ const UNORoom:React.FC<any> = () => {
                                         >
                                             <Card title={item.name} size="small">
                                                 <div className={styles['flex-between']}>
-                                                    <InputNumber addonBefore='-' width={50} min={0} value={item.point} onChange={(value) => changePlayerPoint(index,value)}></InputNumber>
-                                                    <Button danger type='link' onClick={() => deletePlayer(index)}>踢了</Button>
+                                                    <InputNumber disabled={computedLock} addonBefore='-' width={50} min={0} value={item.point} onChange={(value) => changePlayerPoint(index,value)}></InputNumber>
+                                                    <Button danger type='link' onClick={() => deletePlayer(index)}>踢出房间</Button>
                                                 </div>
                                             </Card>
                                         </Badge.Ribbon>
@@ -420,24 +410,69 @@ const UNORoom:React.FC<any> = () => {
                     <Space>
                         <Button color='success' disabled={computedLock} type='primary' onClick={computedGame}>结算本局</Button>
                         <Button color='success' type='primary' onClick={() => {setPointDrawerOpen(true)}}>记分板</Button>
-                        <Button color='success' type='primary' onClick={() => {
+                        <Button color='success' disabled={!computedLock} type='primary' onClick={() => {
                             restGame();
                         }}>新开一局</Button>
                     </Space>
                 </div>
             </PageContainer>
             <Drawer title={'记分板'} width={1200} open={pointDrawerOpen} onClose={() => {setPointDrawerOpen(false)}}>
+                <Card title='分数总计：' size='small'>
+                    <Row>
+                        {
+                            players.map((item,index) => {
+                                const point = computedUserPointTotal(item.name);
+                                let pointClass = 'normal';
+                                if(point > 0) {
+                                    pointClass = 'winner'
+                                }
+                                if(point < 0) {
+                                    pointClass = 'loser'
+                                }
+                                return (
+                                    <Col span={8}>
+                                        <div className={`${styles['total-item']} ${styles[pointClass]}`}>
+                                            {`${item.name}：${point}`}
+                                        </div>
+                                    </Col>
+                                )
+                            })
+                        }
+                    </Row>
+                </Card>
+                <br />
                 <Table
-                    scroll={{x: 'max-content'}}
+                    scroll={{ y: 400,}}
                     dataSource={dataSource}
                     columns={columns}
                     pagination={false}
+                    size='small'
                 />
                 <Divider/>
-                <Space>
-                    <Button type='primary' onClick={moneyAllocation}>生成结算方案</Button>
-                </Space>
+                <Button type='primary' onClick={moneyAllocation}>生成结算方案</Button>
+                {/* <Divider /> */}
             </Drawer>
+            <Drawer title='操作面板' placement={'bottom'} open={toolsDrawerOpen} onClose={() => setToolsDrawerOpen(false)}> 
+                <Form form={form} >
+                    <Form.Item rules={[{required: true, message:'你得起个名啊'}]} label="Player Name" name="name">
+                        <Input maxLength={8}></Input>
+                    </Form.Item>
+                    <Form.Item>
+                        <Space>
+                            <Button onClick={addPlayer}>创建玩家</Button>
+                            <Button onClick={createRoom}>重开房间</Button>
+                            <Button onClick={loadDefaultTeam}>加载默认玩家</Button>
+                        </Space>
+                    </Form.Item>
+                </Form>
+            </Drawer>
+            <FloatButton
+                shape="circle"
+                // type="primary"
+                style={{ right: 12 }}
+                icon={<ToolOutlined />}
+                onClick={() => setToolsDrawerOpen(true)}
+            />
         </>
     )
 }

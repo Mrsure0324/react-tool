@@ -13,6 +13,7 @@
   "dependencies": {
     "@ant-design/icons": "^5.1.4",
     "@ant-design/pro-components": "^2.6.8",
+    "@antv/f2": "^5.5.1",
     "@reduxjs/toolkit": "^2.2.5",
     "@types/react-resizable": "^3.0.7",
     "@umijs/max": "^4.0.72",
