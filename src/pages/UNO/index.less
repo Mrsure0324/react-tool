@@ -25,6 +25,12 @@
     background: url(../../static/image/08b704e0-ae21-4829-8f1f-eb54d4dac3b0.png) no-repeat;
     background-size:  100%;
     background-position-y: 60px;
+
+    :global {
+        :where(.css-dev-only-do-not-override-16mnbme).ant-pro-page-container-children-container {
+            padding: 18px;
+        }
+    }
 }
 
 
@@ -70,4 +76,16 @@
 
 .loser {
     color: green;
+}
+
+.start-button {
+    background: url(../../static/image/b062807f-3414-4b86-9e08-8af1750b2215.png) no-repeat;
+    background-size: 100% 100%;
+    width: 300px;
+    height: 300px;
+    // align-items: center;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
 }

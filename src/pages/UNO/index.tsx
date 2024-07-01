@@ -377,45 +377,58 @@ const UNORoom:React.FC<any> = () => {
         <>
             <div className={styles['box']}>
                 <PageContainer title={false} className={styles.wrapper} style={{ minHeight: '100vh'}}>
-                    <div className={styles['inner']}>
-                        <p style={{color: 'orange'}}>注：第一名以及并列第一，直接输入0即可</p>
-                        <Space direction="vertical" size="middle" style={{ width: '100%' }}>
-                            {
-                                players.map((item,index) => {
-                                    return (
-                                        <>  
-                                            <Badge.Ribbon 
-                                                key={index} 
-                                                text={(
-                                                    <>
-                                                        {item?.type === 'winner' && 'Winner 🤑'}
-                                                        {item?.type === 'loser' && 'Loser 😭'}
-                                                        {item?.type === 'normal' && 'Ready 😎'}
+                    {
+                        players?.length > 0 && (
+                            <>
+                                <div className={styles['inner']}>
+                                    <p style={{color: 'orange'}}>注：第一名以及并列第一，直接输入0即可</p>
+                                    <Space direction="vertical" size="middle" style={{ width: '100%' }}>
+                                        {
+                                            players.map((item,index) => {
+                                                return (
+                                                    <>  
+                                                        <Badge.Ribbon 
+                                                            key={index} 
+                                                            text={(
+                                                                <>
+                                                                    {item?.type === 'winner' && 'Winner 🤑'}
+                                                                    {item?.type === 'loser' && 'Loser 😭'}
+                                                                    {item?.type === 'normal' && 'Ready 😎'}
+                                                                </>
+                                                            )}  
+                                                            color={getBadgeColor(item?.type)}
+                                                        >
+                                                            <Card title={item.name} size="small">
+                                                                <div className={styles['flex-between']}>
+                                                                    <InputNumber disabled={computedLock} addonBefore='-' width={50} min={0} value={item.point} onChange={(value) => changePlayerPoint(index,value)}></InputNumber>
+                                                                    <Button danger type='link' onClick={() => deletePlayer(index)}>踢出房间</Button>
+                                                                </div>
+                                                            </Card>
+                                                        </Badge.Ribbon>
                                                     </>
-                                                )}  
-                                                color={getBadgeColor(item?.type)}
-                                            >
-                                                <Card title={item.name} size="small">
-                                                    <div className={styles['flex-between']}>
-                                                        <InputNumber disabled={computedLock} addonBefore='-' width={50} min={0} value={item.point} onChange={(value) => changePlayerPoint(index,value)}></InputNumber>
-                                                        <Button danger type='link' onClick={() => deletePlayer(index)}>踢出房间</Button>
-                                                    </div>
-                                                </Card>
-                                            </Badge.Ribbon>
-                                        </>
-                                    )
-                                })
-                            }
-                        </Space>
-                        <Divider/>
-                        <Space>
-                            <Button color='success' disabled={computedLock} type='primary' onClick={computedGame}>结算本局</Button>
-                            <Button color='success' type='primary' onClick={() => {setPointDrawerOpen(true)}}>记分板</Button>
-                            <Button color='success' disabled={!computedLock} type='primary' onClick={() => {
-                                restGame();
-                            }}>新开一局</Button>
-                        </Space>
-                    </div>
+                                                )
+                                            })
+                                        }
+                                    </Space>
+                                    <Divider/>
+                                    <Space>
+                                        <Button color='success' disabled={computedLock} type='primary' onClick={computedGame}>结算本局</Button>
+                                        <Button color='success' type='primary' onClick={() => {setPointDrawerOpen(true)}}>记分板</Button>
+                                        <Button color='success' disabled={!computedLock} type='primary' onClick={() => {
+                                            restGame();
+                                        }}>新开一局</Button>
+                                    </Space>
+                                </div>
+                            </>
+                        )
+                    }
+                    {
+                        players?.length <= 0 && (
+                            <>
+                                <div onClick={() => setToolsDrawerOpen(true)} className={styles['start-button']}></div>
+                            </>
+                        )
+                    }
                 </PageContainer>
             </div>
             <Drawer title={'记分板'} width={1200} open={pointDrawerOpen} onClose={() => {setPointDrawerOpen(false)}}>
@@ -472,8 +485,8 @@ const UNORoom:React.FC<any> = () => {
                 shape="circle"
                 // type="primary"
                 style={{ right: 12 }}
-                // icon={<ToolOutlined />}
-                description='GO!'
+                icon={<ToolOutlined />}
+                // description='GO!'
                 onClick={() => setToolsDrawerOpen(true)}
             />
         </>
