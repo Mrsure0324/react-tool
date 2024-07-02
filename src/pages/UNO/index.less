@@ -79,13 +79,22 @@
 }
 
 .start-button {
-    background: url(../../static/image/b062807f-3414-4b86-9e08-8af1750b2215.png) no-repeat;
+    background: url(../../static/image/logo.gif) no-repeat;
     background-size: 100% 100%;
-    width: 300px;
-    height: 300px;
+    width: 200px;
+    height: 200px;
     // align-items: center;
     position: absolute;
     left: 50%;
-    top: 50%;
+    top: 60%;
     transform: translate(-50%,-50%);
+    animation: startButton 0.6s linear infinite; /* 添加动画 */
+}
+
+@keyframes startButton {
+    0% { left: 30%; }
+    25% { left: 50%; }
+    50% { left: 60%; }
+    75% { left: 50%; }
+    100% { left: 30%; }
 }
