@@ -87,36 +87,40 @@ export default defineConfig({
 			path: '/ImageLabel',
 			component: './ImageLabel',
 		},
+		{
+			name: 'NLUX',
+			path: '/NLUX',
+			component: './NLUX',
+		},
 	],
 	npmClient: 'pnpm',
 	esbuildMinifyIIFE: true,
 	chainWebpack(memo, args) {
-		memo
-			.plugin('speed-measure-webpack-plugin')
-			.use(SpeedMeasurePlugin)
-			.end();
+		// memo
+		// 	.plugin('speed-measure-webpack-plugin')
+		// 	.use(SpeedMeasurePlugin)
+		// 	.end();
 
 		// memo
 		// 	.plugin('webpack-bundle-analyzer')
 		// 	.use(BundleAnalyzerPlugin)
 		// 	.end();
 
-		memo
-			.optimization
-			.splitChunks({
-				chunks: 'all',
-				// cacheGroups: {
-				// 	lodash: {
-				// 		test:/lodash/,
-				// 		name: "lodash"
-				// 	},
-				// 	react: {
-				// 		test: /react|react-dom/,
-				// 		name: "react"
-				// 	}
-				// }
-			})
-			console.log('webpack Config', memo.toConfig())
+		// memo
+		// 	.optimization
+		// 	.splitChunks({
+		// 		chunks: 'all',
+		// 		// cacheGroups: {
+		// 		// 	lodash: {
+		// 		// 		test:/lodash/,
+		// 		// 		name: "lodash"
+		// 		// 	},
+		// 		// 	react: {
+		// 		// 		test: /react|react-dom/,
+		// 		// 		name: "react"
+		// 		// 	}
+		// 		// }
+		// 	})
 		return memo;
 	},
 });

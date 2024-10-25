@@ -14,6 +14,15 @@ dependencies:
   '@antv/f2':
     specifier: ^5.5.1
     version: 5.5.1
+  '@nlux/langchain-react':
+    specifier: ^2.17.1
+    version: 2.17.1(@nlux/react@2.17.1)(react@18.3.1)
+  '@nlux/react':
+    specifier: ^2.17.1
+    version: 2.17.1(react-dom@18.3.1)(react@18.3.1)
+  '@nlux/themes':
+    specifier: ^2.17.1
+    version: 2.17.1
   '@reduxjs/toolkit':
     specifier: ^2.2.5
     version: 2.2.5(react-redux@9.1.2)(react@18.3.1)
@@ -4202,6 +4211,42 @@ packages:
       eslint-scope: 5.1.1
     dev: false
 
+  /@nlux/core@2.17.1:
+    resolution: {integrity: sha512-hIvOnuENVqWaIg5Co4JtFmHph7Sp0Nj+QixOMdOW9Ou7CjU7HK+maB5koLoayNL64B+wHTtgPN7zBrB8NCSPXw==}
+    dev: false
+
+  /@nlux/langchain-react@2.17.1(@nlux/react@2.17.1)(react@18.3.1):
+    resolution: {integrity: sha512-rY32BK4HT7W60wcOPMEv4k03drKVP7+w6n46v6WX+Kcr2XNnk16/+q81Oor8azuNAscoEgZUgWhWKvRNn3RPYQ==}
+    peerDependencies:
+      '@nlux/react': 2.17.1
+      react: ^18
+    dependencies:
+      '@nlux/langchain': 2.17.1
+      '@nlux/react': 2.17.1(react-dom@18.3.1)(react@18.3.1)
+      react: 18.3.1
+    dev: false
+
+  /@nlux/langchain@2.17.1:
+    resolution: {integrity: sha512-IbhiOo8EQtQ1m9n05ugnsN4wn8ksl65Gk8ug8BzXG/OyLoxddVTF3a9jZgbE2+irNkVUcKCADcE9MTG6UEBDbg==}
+    dependencies:
+      '@nlux/core': 2.17.1
+    dev: false
+
+  /@nlux/react@2.17.1(react-dom@18.3.1)(react@18.3.1):
+    resolution: {integrity: sha512-/t6qDAHIefg1vGIthLOtkQxbI4Sh/aL7/eqVuhcoC1w/8NqnvVxwfxR0mkshcIVrKSwHI8Yjav5edZ2yeRBqMw==}
+    peerDependencies:
+      react: ^18
+      react-dom: ^18
+    dependencies:
+      '@nlux/core': 2.17.1
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+    dev: false
+
+  /@nlux/themes@2.17.1:
+    resolution: {integrity: sha512-spD3QJBSdkF+q45rQFFsUQcR4pTy3OEjQywEP+yc9dHcuPrxIMb0/W/whwiHn1aePGL758lKQH3E/NRHA4aSAw==}
+    dev: false
+
   /@nodelib/fs.scandir@2.1.5:
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
     engines: {node: '>= 8'}
@@ -6293,6 +6338,7 @@ packages:
   /binary-extensions@2.2.0:
     resolution: {integrity: sha512-jDctJ/IVQbZoJykoeHbhXpOlNBqGNcwXJKJog42E5HDPUwQTSdjCHdihjj0DlnheQ7blbT6dHOafNAiS8ooQKA==}
     engines: {node: '>=8'}
+    requiresBuild: true
     dev: false
 
   /bn.js@4.12.0:
