@@ -2,6 +2,7 @@ import CAIXVKUN from '@/static/image/7964710a-23a0-11eb-a6a2-aa3e3c-unscreen.gif
 import { Provider } from 'react-redux';
 import { store } from './store';
 import React from 'react';
+import './init.less'
 
 // 运行时配置
 
@@ -21,12 +22,12 @@ export const layout = () => {
 			return (
 				<>
 					<img style={{width: '20px',height:'20px'}} src={CAIXVKUN} />
+					{/* <img style={{width: '20px',height:'20px'}} src={CAIXVKUN} />
 					<img style={{width: '20px',height:'20px'}} src={CAIXVKUN} />
 					<img style={{width: '20px',height:'20px'}} src={CAIXVKUN} />
 					<img style={{width: '20px',height:'20px'}} src={CAIXVKUN} />
 					<img style={{width: '20px',height:'20px'}} src={CAIXVKUN} />
-					<img style={{width: '20px',height:'20px'}} src={CAIXVKUN} />
-					<img style={{width: '20px',height:'20px'}} src={CAIXVKUN} />
+					<img style={{width: '20px',height:'20px'}} src={CAIXVKUN} /> */}
 				</>
 			)
 		}

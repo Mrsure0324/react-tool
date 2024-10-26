@@ -1,17 +1,13 @@
 import React, { useEffect, useMemo } from 'react'
 import styles from './index.less'
-import { Button, Modal, Form, Input, List, Card, Avatar, InputNumber, message, Space, Badge, Divider, Drawer, Table, Typography } from 'antd';
+import { Button, Modal, Form, Input, List, Card, Avatar, InputNumber, message, Space, Badge, Divider, Drawer, Table, Typography, Col, Row, FloatButton } from 'antd';
 import { cloneDeep } from 'lodash';
 import { PageContainer } from '@ant-design/pro-components';
 import moment from 'moment';
 import localforage from 'localforage'
-export interface PlayerProps {
-    description: string;
-    name: string;
-    avatar?: string;
-    point: number;
-    type: 'winner' | 'loser' | 'normal';
-}
+import { bestWealthDistribution } from './tool';
+import { PlayerProps, defaultTeamPlayers } from './config';
+import { ToolOutlined } from '@ant-design/icons';
 
 interface ResultProps {
     rank: number,
@@ -41,6 +37,7 @@ const ResultContent = (props: { result: ResultProps[]}) => {
                 footer={false}
                 bordered
                 dataSource={data}
+                style={{width:'100%'}}
                 renderItem={(item) => (
                     <List.Item>
                         <Typography.Text>{item?.name}</Typography.Text> 
@@ -61,8 +58,9 @@ const UNORoom:React.FC<any> = () => {
     const [form] = Form.useForm();
     const [logs,setLogs] = React.useState<any[]>([]);
     const [pointDrawerOpen,setPointDrawerOpen] = React.useState<boolean>(false);
-    const [computedLock,setComputedLock] = React.useState<boolean>(false);
-
+    const [toolsDrawerOpen,setToolsDrawerOpen] = React.useState<boolean>(false);
+    const [computedLock,setComputedLock] = React.useState<boolean>(true);
+    const [totalInfo,setTotalInfo] = React.useState<any>({});
 
     useEffect(() => {
         if(isInit) {
@@ -90,8 +88,9 @@ const UNORoom:React.FC<any> = () => {
         players.forEach(item => {
             totalInfo[item.name] = computedUserPointTotal(item.name)
         })
-        newLogs.push(totalInfo);
-        return newLogs;
+        // newLogs.push(totalInfo);
+        setTotalInfo(totalInfo)
+        return newLogs.reverse();
     },[logs,players])
     
     const columns:any = useMemo(() => {
@@ -100,7 +99,9 @@ const UNORoom:React.FC<any> = () => {
                 title: item.name,
                 dataIndex: item.name,
                 key: item.name,
-                render(point:number) {
+                width: Math.max(Math.min(item.name?.length * 25,80), 70),
+                render(text:number) {
+                    const point = Math.round(text * 100) / 100;
                     return (
                         <>
                             {Number(point) > 0 && <span style={{color:'red'}}>{`+${point}`}</span>}
@@ -118,28 +119,30 @@ const UNORoom:React.FC<any> = () => {
                 title:'日期',
                 dataIndex: 'date',
                 key:'date',
-                width: 180,
+                width: 100,
             },
             ...res,
             {
                 title: '操作',
-                width: 80,
+                width: 50,
                 fixed: 'right',
                 render(_:string,row:any,index:number) {
                     return (
                         <>
-                            {index !== logs.length && <Button danger onClick={() => deleteLog(row,index)} type='link'>删除</Button>}
+                            {index !== logs.length && <Button style={{paddingLeft: 0}} danger onClick={() => deleteLog(row,index)} type='link'>删除</Button>}
                         </>
                     )
                 }
             }
         ]
-    },[players]);
+    },[players,logs]);
 
     const createRoom = () => {
         //缓存
-        localforage.setItem('players',[])
-        localforage.setItem('logs',[])
+        localforage.setItem('players',[]);
+        localforage.setItem('logs',[]);
+        setLogs([]);
+        setPlayers([]);
     }
 
     const deleteLog = (row:any,index:number) => {
@@ -225,7 +228,7 @@ const UNORoom:React.FC<any> = () => {
 
     const resultTurnLog = (result:ResultProps[]) => {
         const item:any = {};
-        item.date = moment().format('YYYY-MM-DD h:mm:ss');
+        item.date = moment().format('HH:mm:ss');
         result.forEach((player,playerInfo) => {
             item[player.name] = player.lastPoint;
         });
@@ -268,8 +271,8 @@ const UNORoom:React.FC<any> = () => {
         // console.log(newLogs);
         Modal.info({
             width: '80%',
-            icon: false,
-            title: <>🏆🏆🏆结算页面🏆🏆🏆</>,
+            icon: <></>,
+            title: <><p>🏆🏆🏆结算页面🏆🏆🏆</p></>,
             content: <ResultContent result={newLog}></ResultContent>,
             okText: '确定',
             cancelText: '取消',
@@ -329,67 +332,163 @@ const UNORoom:React.FC<any> = () => {
         }
     }
 
+    const moneyAllocation = () => {
+        
+        const info = cloneDeep(totalInfo);
+        delete info.date;
+        const arr = [];
+        for(let key in info) {
+            arr.push({
+                name: key,
+                point: info[key],
+            })
+        }
+        arr.sort((a,b) => b.point - a.point);
+        const plans = bestWealthDistribution(arr);
+        
+        Modal.info({
+            width: '80%',
+            icon: <></>,
+            title: <>{'结算方案'}</>,
+            content: (<>
+                {
+                    plans.map(item => {
+                        return (
+                            <div style={{fontSize:'16px'}}>
+                                <span>【{item?.loser}】</span> 
+                                <span>输给</span> 
+                                <span>【{item?.winner}】</span>
+                                <span style={{color: 'red'}}>{Math.round(item?.amount * 10) / 10 / 10}</span>元
+                            </div>
+                        )
+                    })
+                }
+            </>),
+            okText: '确定',
+            cancelText: '取消',
+        });  
+    }
+
+    const loadDefaultTeam = () => {
+        setPlayers(defaultTeamPlayers)
+    }
+
     return (
         <>
-            <PageContainer title={'UNO计分器'} className={styles['box']} style={{ minHeight: '100vh'}}>
-                <div className={styles['inner']}>
-                    <Form form={form} layout='inline'>
-                        <Form.Item rules={[{required: true, message:'你得起个名啊'}]} label="Player Name" name="name">
-                            <Input maxLength={8}></Input>
-                        </Form.Item>
-                        <Form.Item>
-                            <Space>
-                            <Button onClick={addPlayer}>创建玩家</Button>
-                            <Button onClick={createRoom}>重开房间</Button>
-                            </Space>
-                        </Form.Item>
-                    </Form>
-                    <Divider/>
-                    <Space direction="vertical" size="middle" style={{ width: '100%' }}>
+            <div className={styles['box']}>
+                <PageContainer title={false} className={styles.wrapper} style={{ minHeight: '100vh'}}>
+                    {
+                        players?.length > 0 && (
+                            <>
+                                <div className={styles['inner']}>
+                                    <p style={{color: 'orange'}}>注：第一名以及并列第一，直接输入0即可</p>
+                                    <Space direction="vertical" size="middle" style={{ width: '100%' }}>
+                                        {
+                                            players.map((item,index) => {
+                                                return (
+                                                    <>  
+                                                        <Badge.Ribbon 
+                                                            key={index} 
+                                                            text={(
+                                                                <>
+                                                                    {item?.type === 'winner' && 'Winner 🤑'}
+                                                                    {item?.type === 'loser' && 'Loser 😭'}
+                                                                    {item?.type === 'normal' && 'Ready 😎'}
+                                                                </>
+                                                            )}  
+                                                            color={getBadgeColor(item?.type)}
+                                                        >
+                                                            <Card title={item.name} size="small">
+                                                                <div className={styles['flex-between']}>
+                                                                    <InputNumber disabled={computedLock} addonBefore='-' width={50} min={0} value={item.point} onChange={(value) => changePlayerPoint(index,value)}></InputNumber>
+                                                                    <Button danger type='link' onClick={() => deletePlayer(index)}>踢出房间</Button>
+                                                                </div>
+                                                            </Card>
+                                                        </Badge.Ribbon>
+                                                    </>
+                                                )
+                                            })
+                                        }
+                                    </Space>
+                                    <Divider/>
+                                    <Space>
+                                        <Button color='success' disabled={computedLock} type='primary' onClick={computedGame}>结算本局</Button>
+                                        <Button color='success' type='primary' onClick={() => {setPointDrawerOpen(true)}}>记分板</Button>
+                                        <Button color='success' disabled={!computedLock} type='primary' onClick={() => {
+                                            restGame();
+                                        }}>新开一局</Button>
+                                    </Space>
+                                </div>
+                            </>
+                        )
+                    }
+                    {
+                        players?.length <= 0 && (
+                            <>
+                                <div onClick={() => setToolsDrawerOpen(true)} className={styles['start-button']}></div>
+                            </>
+                        )
+                    }
+                </PageContainer>
+            </div>
+            <Drawer title={'记分板'} width={1200} open={pointDrawerOpen} onClose={() => {setPointDrawerOpen(false)}}>
+                <Card title='分数总计：' size='small'>
+                    <Row>
                         {
                             players.map((item,index) => {
+                                const point = computedUserPointTotal(item.name);
+                                let pointClass = 'normal';
+                                if(point > 0) {
+                                    pointClass = 'winner'
+                                }
+                                if(point < 0) {
+                                    pointClass = 'loser'
+                                }
                                 return (
-                                    <>  
-                                        <Badge.Ribbon 
-                                            key={index} 
-                                            text={(
-                                                <>
-                                                    {item?.type === 'winner' && 'Winner 🤑'}
-                                                    {item?.type === 'loser' && 'Loser 😭'}
-                                                    {item?.type === 'normal' && 'Ready 😎'}
-                                                </>
-                                            )}  
-                                            color={getBadgeColor(item?.type)}
-                                        >
-                                            <Card title={item.name} size="small">
-                                                <div className={styles['flex-between']}>
-                                                    <InputNumber addonBefore='-' width={50} min={0} value={item.point} onChange={(value) => changePlayerPoint(index,value)}></InputNumber>
-                                                    <Button danger type='link' onClick={() => deletePlayer(index)}>踢了</Button>
-                                                </div>
-                                            </Card>
-                                        </Badge.Ribbon>
-                                    </>
+                                    <Col span={8}>
+                                        <div className={`${styles['total-item']} ${styles[pointClass]}`}>
+                                            {`${item.name}：${point}`}
+                                        </div>
+                                    </Col>
                                 )
                             })
                         }
-                    </Space>
-                    <Divider/>
-                    <Space>
-                        <Button color='success' disabled={computedLock} type='primary' onClick={computedGame}>结算本局</Button>
-                        <Button color='success' type='primary' onClick={() => {setPointDrawerOpen(true)}}>记分板</Button>
-                        <Button color='success' type='primary' onClick={() => {
-                            restGame();
-                        }}>新开一局</Button>
-                    </Space>
-                </div>
-            </PageContainer>
-            <Drawer title={'记分板'} width={1200} open={pointDrawerOpen} onClose={() => {setPointDrawerOpen(false)}}>
+                    </Row>
+                </Card>
+                <br />
                 <Table
+                    scroll={{ y: 400,}}
                     dataSource={dataSource}
                     columns={columns}
                     pagination={false}
+                    size='small'
                 />
+                <Divider/>
+                <Button type='primary' onClick={moneyAllocation}>生成结算方案</Button>
+                {/* <Divider /> */}
             </Drawer>
+            <Drawer title='操作面板' placement={'bottom'} open={toolsDrawerOpen} onClose={() => setToolsDrawerOpen(false)}> 
+                <Form form={form} >
+                    <Form.Item rules={[{required: true, message:'你得起个名啊'}]} label="Player Name" name="name">
+                        <Input maxLength={8}></Input>
+                    </Form.Item>
+                    <Form.Item>
+                        <Space>
+                            <Button onClick={addPlayer}>创建玩家</Button>
+                            <Button onClick={createRoom}>重开房间</Button>
+                            <Button onClick={loadDefaultTeam}>加载默认玩家</Button>
+                        </Space>
+                    </Form.Item>
+                </Form>
+            </Drawer>
+            <FloatButton
+                shape="circle"
+                // type="primary"
+                style={{ right: 12 }}
+                icon={<ToolOutlined />}
+                // description='GO!'
+                onClick={() => setToolsDrawerOpen(true)}
+            />
         </>
     )
 }
