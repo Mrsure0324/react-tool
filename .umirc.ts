@@ -9,6 +9,8 @@ export default defineConfig({
   layout: {
     title: 'Sure-Tool-Demo',
   },
+  
+  // publicPath: '/uno.github.io',
   routes: [
     // {
     //   path: '/',
