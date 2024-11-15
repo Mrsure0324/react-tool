@@ -92,6 +92,16 @@ export default defineConfig({
 			path: '/NLUX',
 			component: './NLUX',
 		},
+		{
+			name: 'Theme',
+			path: '/Theme',
+			component: './Theme',
+		},
+		{
+			name: 'DoubleSwiper',
+			path: '/DoubleSwiper',
+			component: './DoubleSwiper',
+		},
 	],
 	npmClient: 'pnpm',
 	esbuildMinifyIIFE: true,

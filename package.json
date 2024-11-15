@@ -37,7 +37,8 @@
     "react-resizable": "^3.0.5",
     "remarkable": "^2.0.1",
     "resize-observer-polyfill": "^1.5.1",
-    "simple-image-label": "^0.0.7"
+    "simple-image-label": "^0.0.7",
+    "swiper": "9.4.1"
   },
   "devDependencies": {
     "@ant-design/moment-webpack-plugin": "^0.0.4",
