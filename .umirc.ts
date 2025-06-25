@@ -92,6 +92,16 @@ export default defineConfig({
 			path: '/NLUX',
 			component: './NLUX',
 		},
+		{
+			name: '生成网页长图',
+			path: '/generate-web-long-image',
+			component: './GenerateWebLongImage',
+		},
+		{
+			name: 'HtmlEditor',
+			path: '/HtmlEditor',
+			component: './HtmlEditor',
+		},
 	],
 	npmClient: 'pnpm',
 	esbuildMinifyIIFE: true,
