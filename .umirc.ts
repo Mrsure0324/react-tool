@@ -52,6 +52,11 @@ export default defineConfig({
 			path: '/md-demo',
 			component: './Markdown',
 		},
+		{
+			name: 'React Markdown Demo',
+			path: '/react-markdown-demo',
+			component: './ReactMarkdownDemo',
+		},
 		// {
 		//   name: 'Markdown-Marked',
 		//   path: '/md-marked',
@@ -101,6 +106,41 @@ export default defineConfig({
 			name: 'HtmlEditor',
 			path: '/HtmlEditor',
 			component: './HtmlEditor',
+		},
+		{
+			name: 'XmlParser',
+			path: '/XmlParser',
+			component: './XmlParser',
+		},
+		{
+			name: 'ImageGird',
+			path: '/ImageGird',
+			component: './ImageGird',
+		},
+		{
+			name: 'Loading',
+			path: '/Loading',
+			component: './Loading',
+		},
+		{
+			name: 'sseMock',
+			path: '/sseMock',
+			component: './sseMock',
+		},
+		{
+			name: 'mentionDemo',
+			path: '/mentionDemo',
+			component: './mentionDemo',
+		},
+		{
+			name: 'Tiptap聊天演示',
+			path: '/tiptap-demo',
+			component: './TiptapDemo',
+		},
+		{
+			name: 'Tiptap组件封装',
+			path: '/tiptap-component',
+			component: './TiptapDemo/ComponentDemo',
 		},
 	],
 	npmClient: 'pnpm',

@@ -45,7 +45,7 @@
   const EDIT_SLIDE_CONSTANT = {
     ParentOriginList: [
       'http://localhost:8000',
-      'http://192.168.212.176:8000'
+      'http://192.168.212.194:8000'
     ],
     CurEleId: 'slide-edit-cur-ele-id',
     CurClickEleId: 'slide-edit-cur-click-ele-id',

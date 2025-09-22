@@ -1,0 +1,414 @@
+@mentionsPrefixCls: rc-mentions;
+
+.@{mentionsPrefixCls} {
+  display: inline-block;
+  position: relative;
+  white-space: pre-wrap;
+
+  // ================= Input Area =================
+  >textarea,
+  &-measure {
+    font-size: inherit;
+    font-size-adjust: inherit;
+    font-style: inherit;
+    font-variant: inherit;
+    font-stretch: inherit;
+    font-weight: inherit;
+    font-family: inherit;
+
+    padding: 0;
+    margin: 0;
+    line-height: inherit;
+    vertical-align: top;
+    overflow: inherit;
+    word-break: inherit;
+    white-space: inherit;
+    word-wrap: break-word;
+    overflow-x: initial;
+    overflow-y: auto;
+    text-align: inherit;
+    letter-spacing: inherit;
+    white-space: inherit;
+    tab-size: inherit;
+    direction: inherit;
+  }
+
+  >textarea {
+    border: none;
+    width: 100%;
+  }
+
+  &-measure {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    pointer-events: none;
+    // color: rgba(255, 0, 0, 0.3);
+    color: transparent;
+    z-index: -1;
+  }
+
+  // ================== Dropdown ==================
+  &-dropdown {
+    position: absolute;
+
+    &-menu {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+
+      &-item {
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+// Customize style
+.@{mentionsPrefixCls} {
+  font-size: 20px;
+  border: 1px solid #999;
+  border-radius: 3px;
+  overflow: hidden;
+
+  &-dropdown {
+    border: 1px solid #999;
+    border-radius: 3px;
+    background: #FFF;
+
+    &-menu {
+      &-item {
+        padding: 4px 8px;
+
+        &-active {
+          background: #e6f7ff;
+        }
+
+        &-disabled {
+          opacity: 0.5;
+        }
+      }
+    }
+  }
+}
+
+// =================== React Mentions 重叠问题修复 ===================
+.mention-demo {
+
+  // 多行输入框样式
+  .mentions-input-multiline {
+    .react-mentions {
+      position: relative;
+      font-family: 'Consolas', 'Monaco', 'Courier New', monospace !important;
+
+      &__control {
+        position: relative;
+
+        &__highlighter {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          z-index: 1;
+          pointer-events: none;
+
+          // 强制使用等宽字体
+          font-family: 'Consolas', 'Monaco', 'Courier New', monospace !important;
+          font-size: 14px !important;
+          line-height: 1.5 !important;
+          letter-spacing: 0 !important;
+
+          // 精确匹配输入框样式
+          padding: 12px !important;
+          margin: 0 !important;
+          border: 1px solid transparent !important;
+
+          // 背景透明，让输入框显示
+          background: transparent !important;
+          color: transparent !important;
+
+          // 处理换行
+          white-space: pre-wrap !important;
+          word-wrap: break-word !important;
+          overflow: hidden !important;
+
+          // mention高亮显示
+          .react-mentions__mention {
+            background-color: #e6f4ff !important;
+            color: #1677ff !important;
+            border-radius: 2px !important;
+            padding: 1px 2px !important;
+            font-weight: bold !important;
+            display: inline !important;
+          }
+        }
+
+        &__input {
+          position: relative;
+          z-index: 2;
+
+          // 强制使用等宽字体
+          font-family: 'Consolas', 'Monaco', 'Courier New', monospace !important;
+          font-size: 14px !important;
+          line-height: 1.5 !important;
+          letter-spacing: 0 !important;
+
+          // 精确匹配高亮层样式
+          padding: 12px !important;
+          margin: 0 !important;
+          border: 1px solid #d9d9d9 !important;
+          border-radius: 6px !important;
+          outline: none !important;
+
+          // 透明背景让底层高亮可见
+          background: transparent !important;
+          color: rgba(0, 0, 0, 0.85) !important;
+
+          min-height: 80px;
+          resize: vertical;
+
+          &:focus {
+            border-color: #40a9ff !important;
+            box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2) !important;
+          }
+        }
+      }
+
+      // 建议列表样式
+      &__suggestions {
+        position: absolute;
+        z-index: 1000;
+
+        &__list {
+          background: white;
+          border: 1px solid #d9d9d9;
+          border-radius: 6px;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+          max-height: 200px;
+          overflow-y: auto;
+        }
+
+        &__item {
+          padding: 8px 12px;
+          border-bottom: 1px solid #f0f0f0;
+          cursor: pointer;
+          transition: background-color 0.2s;
+
+          &--focused {
+            background-color: #f0f8ff;
+          }
+
+          &:last-child {
+            border-bottom: none;
+          }
+        }
+      }
+    }
+  }
+
+  // 单行输入框样式
+  .mentions-input-singleline {
+    .react-mentions {
+      position: relative;
+      font-family: 'Consolas', 'Monaco', 'Courier New', monospace !important;
+
+      &__control {
+        position: relative;
+
+        &__highlighter {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          z-index: 1;
+          pointer-events: none;
+
+          // 强制使用等宽字体
+          font-family: 'Consolas', 'Monaco', 'Courier New', monospace !important;
+          font-size: 14px !important;
+          line-height: 1.5 !important;
+          letter-spacing: 0 !important;
+
+          // 精确匹配输入框样式
+          padding: 8px 12px !important;
+          margin: 0 !important;
+          border: 1px solid transparent !important;
+
+          // 背景透明，让输入框显示
+          background: transparent !important;
+          color: transparent !important;
+
+          // 单行处理
+          white-space: nowrap !important;
+          overflow: hidden !important;
+          text-overflow: ellipsis !important;
+
+          // mention高亮显示
+          .react-mentions__mention {
+            background-color: #e6f4ff !important;
+            color: #1677ff !important;
+            border-radius: 2px !important;
+            padding: 1px 2px !important;
+            font-weight: bold !important;
+            display: inline !important;
+          }
+        }
+
+        &__input {
+          position: relative;
+          z-index: 2;
+
+          // 强制使用等宽字体
+          font-family: 'Consolas', 'Monaco', 'Courier New', monospace !important;
+          font-size: 14px !important;
+          line-height: 1.5 !important;
+          letter-spacing: 0 !important;
+
+          // 精确匹配高亮层样式
+          padding: 8px 12px !important;
+          margin: 0 !important;
+          border: 1px solid #d9d9d9 !important;
+          border-radius: 6px !important;
+          outline: none !important;
+          width: 100% !important;
+
+          // 透明背景让底层高亮可见
+          background: transparent !important;
+          color: rgba(0, 0, 0, 0.85) !important;
+
+          &:focus {
+            border-color: #40a9ff !important;
+            box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2) !important;
+          }
+        }
+      }
+
+      // 建议列表样式
+      &__suggestions {
+        position: absolute;
+        z-index: 1000;
+
+        &__list {
+          background: white;
+          border: 1px solid #d9d9d9;
+          border-radius: 6px;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+          max-height: 200px;
+          overflow-y: auto;
+        }
+
+        &__item {
+          padding: 8px 12px;
+          border-bottom: 1px solid #f0f0f0;
+          cursor: pointer;
+          transition: background-color 0.2s;
+
+          &--focused {
+            background-color: #f0f8ff;
+          }
+
+          &:last-child {
+            border-bottom: none;
+          }
+        }
+      }
+    }
+  }
+
+  // 自定义mention项样式
+  .mention-item {
+    display: flex;
+    flex-direction: column;
+    padding: 8px 12px;
+
+    &-focused {
+      background-color: #f0f8ff;
+    }
+
+    .mention-display {
+      font-weight: 500;
+      color: #262626;
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    .mention-email {
+      font-size: 12px;
+      color: #8c8c8c;
+      margin-top: 2px;
+      line-height: 1.2;
+    }
+  }
+
+  // 自定义mention显示样式
+  .custom-mention-user {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: linear-gradient(135deg, #e6f4ff 0%, #bae0ff 100%);
+    color: #1677ff;
+    padding: 2px 6px;
+    border-radius: 12px;
+    font-weight: 500;
+    font-size: 14px;
+    border: 1px solid #91caff;
+    margin: 0 2px;
+    box-shadow: 0 1px 2px rgba(22, 119, 255, 0.1);
+
+    &:hover {
+      background: linear-gradient(135deg, #bae0ff 0%, #91caff 100%);
+      transform: translateY(-1px);
+      box-shadow: 0 2px 4px rgba(22, 119, 255, 0.2);
+    }
+  }
+
+  .custom-mention-topic {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: linear-gradient(135deg, #fff1f0 0%, #ffccc7 100%);
+    color: #ff4d4f;
+    padding: 2px 6px;
+    border-radius: 12px;
+    font-weight: 500;
+    font-size: 14px;
+    border: 1px solid #ffadd6;
+    margin: 0 2px;
+    box-shadow: 0 1px 2px rgba(255, 77, 79, 0.1);
+
+    &:hover {
+      background: linear-gradient(135deg, #ffccc7 0%, #ffa39e 100%);
+      transform: translateY(-1px);
+      box-shadow: 0 2px 4px rgba(255, 77, 79, 0.2);
+    }
+  }
+
+  // React Mentions中通过displayTransform添加的emoji图标样式
+  .mentions-input-multiline,
+  .mentions-input-singleline {
+    .react-mentions__mention {
+      // 为emoji图标留出足够空间
+      padding: 2px 6px !important;
+      border-radius: 12px !important;
+
+      // 用户mention样式
+      &[data-mention-type="user"] {
+        background: linear-gradient(135deg, #e6f4ff 0%, #bae0ff 100%) !important;
+        border: 1px solid #91caff !important;
+        box-shadow: 0 1px 2px rgba(22, 119, 255, 0.1) !important;
+      }
+
+      // 话题mention样式  
+      &[data-mention-type="topic"] {
+        background: linear-gradient(135deg, #fff1f0 0%, #ffccc7 100%) !important;
+        color: #ff4d4f !important;
+        border: 1px solid #ffadd6 !important;
+        box-shadow: 0 1px 2px rgba(255, 77, 79, 0.1) !important;
+      }
+    }
+  }
+}

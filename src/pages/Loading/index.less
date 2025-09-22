@@ -1,0 +1,117 @@
+/* 加载页面容器 */
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 20px;
+}
+
+/* 加载内容区域 */
+.loading-content {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 20px;
+  padding: 40px;
+  text-align: center;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  min-width: 300px;
+}
+
+/* 标题样式 */
+.loading-title {
+  font-size: 24px;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 30px 0;
+  background: linear-gradient(45deg, #667eea, #764ba2);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* SVG高光容器 */
+.svg-shimmer-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 30px 0;
+  position: relative;
+}
+
+/* SVG样式 */
+.shimmer-svg {
+  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.1));
+  transition: transform 0.3s ease;
+}
+
+.shimmer-svg:hover {
+  transform: scale(1.05);
+}
+
+/* 加载文字动画 */
+.loading-text {
+  font-size: 18px;
+  color: #666;
+  margin-top: 20px;
+  font-weight: 500;
+}
+
+.dot {
+  display: inline-block;
+  animation: loading-dots 1.5s infinite ease-in-out;
+  font-size: 24px;
+  line-height: 1;
+}
+
+.dot:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.dot:nth-child(2) {
+  animation-delay: 0.3s;
+}
+
+.dot:nth-child(3) {
+  animation-delay: 0.6s;
+}
+
+@keyframes loading-dots {
+
+  0%,
+  60%,
+  100% {
+    opacity: 0.3;
+    transform: scale(0.8);
+  }
+
+  30% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+}
+
+/* 响应式设计 */
+@media (max-width: 480px) {
+  .loading-content {
+    padding: 30px 20px;
+    margin: 20px;
+    min-width: auto;
+  }
+
+  .loading-title {
+    font-size: 20px;
+    margin-bottom: 20px;
+  }
+
+  .shimmer-svg {
+    width: 120px;
+    height: 120px;
+  }
+
+  .loading-text {
+    font-size: 16px;
+  }
+}

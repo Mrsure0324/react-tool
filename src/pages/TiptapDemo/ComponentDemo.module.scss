@@ -1,0 +1,313 @@
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px;
+  background: #f8fafc;
+  min-height: 100vh;
+}
+
+.title {
+  text-align: center;
+  color: #1f2937;
+  margin-bottom: 32px;
+  font-size: 2.5rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.section {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e5e7eb;
+
+  h2 {
+    margin: 0 0 16px 0;
+    color: #374151;
+    font-size: 1.5rem;
+    font-weight: 600;
+  }
+}
+
+.customEditor {
+  max-width: 100%;
+}
+
+.controls {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e5e7eb;
+
+  h3 {
+    margin: 0 0 16px 0;
+    color: #374151;
+    font-size: 1.25rem;
+    font-weight: 600;
+  }
+}
+
+.buttonGroup {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.btn {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: linear-gradient(135deg, #6b7280, #4b5563);
+  color: white;
+
+  &:hover {
+    background: linear-gradient(135deg, #4b5563, #374151);
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  &.btnSuccess {
+    background: linear-gradient(135deg, #10b981, #059669);
+
+    &:hover {
+      background: linear-gradient(135deg, #059669, #047857);
+    }
+  }
+
+  &.btnWarning {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+
+    &:hover {
+      background: linear-gradient(135deg, #d97706, #b45309);
+    }
+  }
+}
+
+.output {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e5e7eb;
+
+  h3 {
+    margin: 0 0 20px 0;
+    color: #374151;
+    font-size: 1.25rem;
+    font-weight: 600;
+  }
+}
+
+.contentSection {
+  margin-bottom: 24px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  h4 {
+    margin: 0 0 8px 0;
+    color: #4b5563;
+    font-size: 1rem;
+    font-weight: 600;
+  }
+}
+
+.codeBlock {
+  background: #f3f4f6;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 12px;
+  font-family: 'SF Mono', 'Monaco', 'Cascadia Code', 'Roboto Mono', monospace;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #374151;
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-x: auto;
+}
+
+.mentions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.mentionTag {
+  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.empty {
+  color: #9ca3af;
+  font-style: italic;
+  font-size: 14px;
+}
+
+.details {
+  margin-top: 8px;
+
+  summary {
+    cursor: pointer;
+    padding: 8px 12px;
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    font-weight: 500;
+    color: #374151;
+
+    &:hover {
+      background: #f3f4f6;
+    }
+  }
+
+  &[open] summary {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    border-bottom: none;
+  }
+
+  .codeBlock {
+    margin-top: 0;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+}
+
+.features {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e5e7eb;
+
+  h3 {
+    margin: 0 0 16px 0;
+    color: #374151;
+    font-size: 1.25rem;
+    font-weight: 600;
+  }
+
+  ul {
+    margin: 0;
+    padding-left: 0;
+    list-style: none;
+  }
+
+  li {
+    padding: 8px 0;
+    border-bottom: 1px solid #f3f4f6;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    strong {
+      color: #1f2937;
+    }
+  }
+}
+
+// 响应式设计
+@media (max-width: 768px) {
+  .container {
+    padding: 16px;
+  }
+
+  .title {
+    font-size: 2rem;
+  }
+
+  .section,
+  .controls,
+  .output,
+  .features {
+    padding: 16px;
+  }
+
+  .buttonGroup {
+    gap: 8px;
+  }
+
+  .btn {
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+}
+
+// 暗色主题支持
+@media (prefers-color-scheme: dark) {
+  .container {
+    background: #111827;
+  }
+
+  .title {
+    color: #f9fafb;
+  }
+
+  .section,
+  .controls,
+  .output,
+  .features {
+    background: #1f2937;
+    border-color: #374151;
+  }
+
+  .section h2,
+  .controls h3,
+  .output h3,
+  .features h3 {
+    color: #f9fafb;
+  }
+
+  .contentSection h4 {
+    color: #d1d5db;
+  }
+
+  .codeBlock {
+    background: #374151;
+    border-color: #4b5563;
+    color: #f3f4f6;
+  }
+
+  .empty {
+    color: #6b7280;
+  }
+
+  .details summary {
+    background: #374151;
+    border-color: #4b5563;
+    color: #f3f4f6;
+
+    &:hover {
+      background: #4b5563;
+    }
+  }
+
+  .features li {
+    border-bottom-color: #374151;
+
+    strong {
+      color: #f3f4f6;
+    }
+  }
+}

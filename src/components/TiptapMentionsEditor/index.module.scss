@@ -1,0 +1,237 @@
+// 编辑器容器
+.editorContainer {
+  position: relative;
+  width: 100%;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  background: #ffffff;
+  transition: all 0.2s ease;
+
+  &:focus-within {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  }
+}
+
+// 编辑器内容区域
+.editorContent {
+  .ProseMirror {
+    padding: 16px;
+    min-height: 120px;
+    outline: none;
+    font-size: 16px;
+    line-height: 1.6;
+    color: #374151;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+    &:empty::before {
+      content: attr(data-placeholder);
+      color: #9ca3af;
+      pointer-events: none;
+      position: absolute;
+      height: 0;
+    }
+
+    p {
+      margin: 0;
+
+      &:not(:last-child) {
+        margin-bottom: 8px;
+      }
+    }
+  }
+}
+
+// 提及标签样式
+.mention {
+  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+  color: white;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-weight: 500;
+  text-decoration: none;
+  display: inline-block;
+  margin: 0 2px;
+  font-size: 0.9em;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: linear-gradient(135deg, #1d4ed8, #1e40af);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  }
+}
+
+// 提及下拉列表
+.mentionList {
+  background: white;
+  border-radius: 12px;
+  box-shadow:
+    0 10px 25px rgba(0, 0, 0, 0.1),
+    0 4px 6px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e5e7eb;
+  overflow: hidden;
+  min-width: 280px;
+  max-width: 320px;
+  z-index: 1000;
+}
+
+// 提及列表项
+.mentionItem {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  width: 100%;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  text-align: left;
+
+  &:hover,
+  &.selected {
+    background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
+  }
+
+  &.selected {
+    background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+
+    .mentionName {
+      color: #1d4ed8;
+      font-weight: 600;
+    }
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+// 用户头像
+.mentionAvatar {
+  width: 36px;
+  height: 36px;
+  background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  margin-right: 12px;
+  flex-shrink: 0;
+  border: 2px solid #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+// 用户信息
+.mentionInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+// 用户名
+.mentionName {
+  font-weight: 500;
+  color: #111827;
+  font-size: 14px;
+  margin-bottom: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+// 用户邮箱
+.mentionEmail {
+  font-size: 12px;
+  color: #6b7280;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+// 空状态
+.mentionEmpty {
+  padding: 16px;
+  text-align: center;
+  color: #9ca3af;
+  font-size: 14px;
+  font-style: italic;
+}
+
+// 响应式设计
+@media (max-width: 768px) {
+  .editorContainer {
+    border-radius: 8px;
+  }
+
+  .editorContent .ProseMirror {
+    padding: 12px;
+    font-size: 16px; // 避免iOS缩放
+  }
+
+  .mentionList {
+    min-width: 260px;
+    max-width: 280px;
+  }
+
+  .mentionItem {
+    padding: 10px 12px;
+  }
+
+  .mentionAvatar {
+    width: 32px;
+    height: 32px;
+    font-size: 16px;
+  }
+}
+
+// 暗色主题支持
+@media (prefers-color-scheme: dark) {
+  .editorContainer {
+    background: #1f2937;
+    border-color: #374151;
+
+    &:focus-within {
+      border-color: #60a5fa;
+      box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.1);
+    }
+  }
+
+  .editorContent .ProseMirror {
+    color: #f9fafb;
+
+    &:empty::before {
+      color: #6b7280;
+    }
+  }
+
+  .mentionList {
+    background: #1f2937;
+    border-color: #374151;
+  }
+
+  .mentionItem {
+
+    &:hover,
+    &.selected {
+      background: linear-gradient(135deg, #374151, #4b5563);
+    }
+
+    &.selected .mentionName {
+      color: #60a5fa;
+    }
+  }
+
+  .mentionName {
+    color: #f9fafb;
+  }
+
+  .mentionEmail {
+    color: #9ca3af;
+  }
+
+  .mentionEmpty {
+    color: #6b7280;
+  }
+}

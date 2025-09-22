@@ -11,7 +11,7 @@ const HtmlEditor: React.FC = () => {
     const loadHtml = async () => {
       try {
         // 使用绝对路径从public目录加载
-        const response = await fetch('http://192.168.212.176:8000/mock/html/movie.html');
+        const response = await fetch('http://192.168.212.194:8000/mock/html/movie.html');
         const html = await response.text();
         if (iframeRef.current) {
           const iframe = iframeRef.current;

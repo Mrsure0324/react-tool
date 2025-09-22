@@ -1,0 +1,34 @@
+.container {
+  padding: 24px;
+
+  .card {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .inputSection,
+  .outputSection {
+    margin-bottom: 20px;
+
+    h3 {
+      margin-bottom: 12px;
+    }
+  }
+
+  .xmlInput,
+  .parseResult {
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
+  }
+
+  .buttonGroup {
+    display: flex;
+    gap: 12px;
+    margin: 16px 0;
+  }
+
+  :global {
+    .ant-btn {
+      min-width: 160px;
+    }
+  }
+}
