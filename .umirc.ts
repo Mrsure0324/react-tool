@@ -142,6 +142,16 @@ export default defineConfig({
 			path: '/tiptap-component',
 			component: './TiptapDemo/ComponentDemo',
 		},
+		{
+			name: 'JsonPatchDemo',
+			path: '/JsonPatchDemo',
+			component: './JsonPatchDemo',
+		},
+		{
+			name: 'JSON Patch 调试工具',
+			path: '/JsonPatchPlayground',
+			component: './JsonPatchPlayground',
+		}
 	],
 	npmClient: 'pnpm',
 	esbuildMinifyIIFE: true,

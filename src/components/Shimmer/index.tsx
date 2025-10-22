@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 
 interface ShimmerProps {
   width?: number;
@@ -10,6 +10,7 @@ interface ShimmerProps {
   padding?: number;
   responsive?: boolean;
   backgroundColor?: string;
+  angle?: number; // 扫光角度，单位：度（0-360）
 }
 
 const Shimmer: React.FC<ShimmerProps> = ({
@@ -21,8 +22,18 @@ const Shimmer: React.FC<ShimmerProps> = ({
   borderRadius = 0,
   padding = 0,
   responsive = false,
-  backgroundColor = 'rgb(232, 233, 236)'
+  backgroundColor = 'rgb(232, 233, 236)',
+  angle = 45 // 默认45度角
 }) => {
+  // 生成唯一的 gradient ID，避免多个 Shimmer 实例冲突
+  const gradientId = useMemo(() =>
+    `shimmerGradient_${Math.random().toString(36).substr(2, 9)}`,
+    []
+  );
+  // 计算渐变的中心点（考虑padding）
+  const centerX = width / 2;
+  const centerY = height / 2;
+
   const svgProps = responsive
     ? {
       width: '100%',
@@ -66,12 +77,12 @@ const Shimmer: React.FC<ShimmerProps> = ({
         width={width - padding * 2}
         height={height - padding * 2}
         rx={borderRadius}
-        fill="url(#shimmerGradient)"
+        fill={`url(#${gradientId})`}
       />
 
       <defs>
         <linearGradient
-          id="shimmerGradient"
+          id={gradientId}
           x1="0%"
           y1="0%"
           x2="50%"
@@ -90,6 +101,17 @@ const Shimmer: React.FC<ShimmerProps> = ({
             dur={`${duration}s`}
             repeatCount="indefinite"
           />
+          {angle !== 45 && (
+            <animateTransform
+              attributeName="gradientTransform"
+              attributeType="XML"
+              type="rotate"
+              values={`${angle - 45} ${centerX} ${centerY}`}
+              dur="0s"
+              repeatCount="1"
+              additive="sum"
+            />
+          )}
         </linearGradient>
       </defs>
     </svg>
