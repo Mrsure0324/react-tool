@@ -151,6 +151,21 @@ export default defineConfig({
 			name: 'JSON Patch 调试工具',
 			path: '/JsonPatchPlayground',
 			component: './JsonPatchPlayground',
+		},
+		{
+			name: 'SSE JSON Patch 调试工具',
+			path: '/SSEJsonPatchPlayground',
+			component: './SSEJsonPatchPlayground',
+		},
+		{
+			name: 'FlexShrinkPriority',
+			path: '/FlexShrinkPriority',
+			component: './FlexShrinkPriority',
+		},
+		{
+			name: 'Figma to Code',
+			path: '/figma-to-code',
+			component: './FigmaToCode',
 		}
 	],
 	npmClient: 'pnpm',

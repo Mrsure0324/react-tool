@@ -1,0 +1,148 @@
+@container-bg: #0f172a;
+@item-bg: #1f2937;
+@item-text: #e5e7eb;
+@item-accent: #60a5fa;
+
+.flex-priority-page {
+  box-sizing: border-box;
+  padding: 16px;
+  min-height: 100vh;
+  background: #0b1020;
+  color: @item-text;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.desc {
+  opacity: 0.8;
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  align-items: center;
+}
+
+.toolbar label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+}
+
+.demo-container {
+  box-sizing: border-box;
+  width: 100%;
+  background: @container-bg;
+  border: 1px solid #223159;
+  border-radius: 10px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.row {
+  display: flex;
+  gap: 8px;
+  align-items: stretch;
+  border-radius: 8px;
+  padding: 8px;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.item {
+  box-sizing: border-box;
+  background: @item-bg;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 12px;
+  color: @item-text;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  /* 基础尺寸与下限：可通过行内 style 动态控制 */
+  flex-basis: var(--basis, 220px);
+  min-width: var(--min, 100px);
+  /* 只允许收缩，不扩张；遵守 max-content 宽度以便文本不被硬断 */
+  flex-grow: 0;
+  flex-shrink: var(--shrink, 1);
+}
+
+.item .label {
+  opacity: 0.85;
+}
+
+.item .size {
+  color: @item-accent;
+  margin-left: 6px;
+  font-variant-numeric: tabular-nums;
+}
+
+.item.protected {
+  /* 保护项不收缩 */
+  flex-shrink: 0 !important;
+  border-color: rgba(96, 165, 250, 0.6);
+  box-shadow: inset 0 0 0 1px rgba(96, 165, 250, 0.35);
+  background: linear-gradient(0deg, rgba(96, 165, 250, 0.08), rgba(96, 165, 250, 0.08)), @item-bg;
+}
+
+.item .tag {
+  margin-left: 8px;
+  font-size: 11px;
+  padding: 2px 6px;
+  border-radius: 999px;
+  background: rgba(96, 165, 250, 0.15);
+  color: @item-accent;
+  border: 1px solid rgba(96, 165, 250, 0.35);
+}
+
+.hint {
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+/* Title-like line content inside each spc item */
+.title-line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  min-width: 0;
+  color: rgba(229, 231, 235, 0.85);
+}
+
+.title-line .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #9ca3af;
+  /* muted gray */
+  flex: 0 0 auto;
+}
+
+.title-line .doc-icon {
+  font-size: 14px;
+  opacity: 0.7;
+  flex: 0 0 auto;
+}
+
+.title-line .text {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  opacity: 0.9;
+}

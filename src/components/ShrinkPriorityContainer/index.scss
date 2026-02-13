@@ -1,0 +1,28 @@
+$container-bg: #0f172a;
+$item-bg: #1f2937;
+$item-text: #e5e7eb;
+$item-accent: #60a5fa;
+
+.spc-row {
+  display: flex;
+  gap: 8px;
+  align-items: stretch;
+}
+
+.spc-item {
+  flex-basis: var(--basis, 220px);
+  min-width: var(--min, 100px);
+  flex-grow: 0;
+  flex-shrink: var(--shrink, 1);
+}
+
+.spc-item.fill {
+  flex-grow: 1;
+  /* Grow to use remaining space, but stop once content is fully shown */
+  flex-basis: auto;
+  max-width: max-content;
+}
+
+.spc-item.protected {
+  flex-shrink: 0 !important;
+}

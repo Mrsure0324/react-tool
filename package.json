@@ -6,9 +6,12 @@
     "build": "max build",
     "format": "prettier --cache --write .",
     "prepare": "husky install",
-    "postinstall": "max setup",
+    "postinstall": "max setup && git submodule update --init",
     "setup": "max setup",
-    "start": "npm run dev"
+    "start": "npm run dev",
+    "design:sync": "git submodule update --remote designs && echo '✅ 设计稿已同步到最新'",
+    "design:init": "git submodule init && git submodule update && echo '✅ 设计子模块已初始化'",
+    "design:status": "cd designs && git log --oneline -5 && echo '---' && git status"
   },
   "dependencies": {
     "@ant-design/icons": "^5.1.4",
@@ -34,6 +37,7 @@
     "classnames": "^2.5.1",
     "codemirror": "^6.0.1",
     "fast-json-patch": "^3.1.1",
+    "figma-api": "2.1.0-beta",
     "firebase": "^10.12.2",
     "forgiving-xml-parser": "^1.4.2",
     "from-xml": "^0.1.11",
