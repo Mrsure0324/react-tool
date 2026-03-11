@@ -1,0 +1,230 @@
+---
+description: 项目代码风格与目录结构规范，所有代码生成和修改必须遵循
+globs:
+alwaysApply: true
+---
+
+# 代码风格规范
+
+## 技术栈
+
+- 框架：Umi Max v4 + React 18
+- UI 库：Ant Design v5 + @ant-design/pro-components
+- 状态管理：Umi Max `useModel`（全局模型）、Redux Toolkit（复杂状态）
+- 数据请求：Umi Max `request`、axios
+- 样式：LESS（主要）、SCSS / CSS Modules（部分组件）
+- 语言：TypeScript（严格模式）
+- 工具库：lodash、classnames、ahooks、moment
+- 包管理：pnpm
+- 设计工具：Pencil（.pen 文件）
+
+## 目录结构
+
+```
+src/
+├── api/                 ← 服务端 API 路由（UmiApiRequest/UmiApiResponse）
+├── assets/              ← 静态资源
+├── components/          ← 跨页面公共组件
+│   └── {ComponentName}/
+│       ├── index.tsx        导出入口
+│       └── index.less       样式文件
+├── constants/           ← 全局常量
+├── hooks/               ← 全局通用 hooks
+├── layouts/             ← 布局组件
+├── lib/                 ← 内部工具库
+├── models/              ← Umi 全局模型（useModel hooks）
+├── pages/               ← 页面组件（每页独立目录）
+│   └── {PageName}/
+│       ├── index.tsx        页面入口
+│       └── index.less       页面样式
+├── services/            ← 客户端 API 封装
+├── static/              ← 静态文件（图片等）
+├── store/               ← Redux Toolkit store
+│   └── slices/              Redux slices
+├── types/               ← 全局类型定义
+└── utils/               ← 工具函数
+```
+
+## 路由配置
+
+路由在 `.umirc.ts` 中集中配置，遵循 Umi 约定：
+
+```typescript
+{
+  name: '页面标题',
+  path: '/kebab-case-path',
+  component: './PageName',
+}
+```
+
+新增页面时必须同步更新 `.umirc.ts` 的 routes 数组。
+
+## 命名规范
+
+| 类型 | 规则 | 示例 |
+|------|------|------|
+| 组件 | PascalCase | `UserProfileCard` |
+| 组件文件 | `index.tsx` 在 PascalCase 目录内 | `UserCard/index.tsx` |
+| hooks | camelCase + use 前缀 | `useUserProfile` |
+| 工具函数 | camelCase + 动词 | `formatTimestamp` |
+| 常量 | UPPER_SNAKE_CASE | `MAX_RETRY_COUNT` |
+| 类型/接口 | PascalCase，无 I/T 前缀 | `UserProfile` |
+| API 函数 | camelCase + 动词前缀 | `fetchUserList` |
+| 事件处理 | handle + 名词 + 动词 | `handleFormSubmit` |
+| 布尔值 | is/has/should/can 前缀 | `isLoading` |
+| 目录 | 组件用 PascalCase，其他用小写 | `UserCard/`、`utils/` |
+| 页面目录 | PascalCase | `src/pages/Home/` |
+| 样式文件 | 跟随所在目录 | `index.less`、`index.module.scss` |
+
+## 导入规则
+
+```typescript
+// 1. 第三方库
+import React, { useState, useCallback } from 'react';
+import { Button, Input } from 'antd';
+import { PageContainer } from '@ant-design/pro-components';
+
+// 2. Umi 框架
+import { useModel, history } from '@umijs/max';
+
+// 3. 全局模块（@/ 路径别名 → src/）
+import { DEFAULT_NAME } from '@/constants';
+import { formatDate } from '@/utils/format';
+import SomeComponent from '@/components/SomeComponent';
+
+// 4. 当前模块（相对路径）
+import { UserCard } from './components/UserCard';
+import styles from './index.less';
+```
+
+路径别名：`@/` 映射到 `src/`，禁止在 `@/` 能覆盖的范围内使用 `../../` 相对路径。
+
+## 组件写法
+
+```typescript
+// ✅ 标准页面组件
+import { PageContainer } from '@ant-design/pro-components';
+import { useModel } from '@umijs/max';
+import styles from './index.less';
+
+const MyPage: React.FC = () => {
+  const { name } = useModel('global');
+
+  return (
+    <PageContainer ghost>
+      <div className={styles.container}>
+        {/* 页面内容 */}
+      </div>
+    </PageContainer>
+  );
+};
+
+export default MyPage;
+```
+
+```typescript
+// ✅ 标准公共组件
+interface UserCardProps {
+  user: UserInfo;
+  onPress?: (userId: string) => void;
+}
+
+const UserCard = ({ user, onPress }: UserCardProps) => {
+  const handleClick = useCallback(() => {
+    onPress?.(user.id);
+  }, [user.id, onPress]);
+
+  return (
+    <div className={styles.card} onClick={handleClick}>
+      {/* ... */}
+    </div>
+  );
+};
+
+export default UserCard;
+```
+
+规则：
+- 箭头函数定义组件
+- 页面组件使用 `React.FC` 类型
+- 公共组件 Props 用 interface 单独定义
+- `export default` 放在文件底部
+- 不要使用 `export default function`
+
+## 样式规则
+
+```less
+// ✅ 使用 LESS 为主，import 为非 CSS Module 形式
+@import '~antd/es/style/themes/default.less';
+
+.container {
+  padding: 24px;
+
+  .title {
+    font-size: 16px;
+    font-weight: 500;
+  }
+}
+```
+
+```scss
+// ✅ CSS Modules 用于需要隔离的组件
+.card {
+  border-radius: 8px;
+  &:hover {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+}
+```
+
+规则：
+- LESS 为主样式方案
+- 需要强隔离的组件使用 `.module.scss`
+- 使用 `classnames` 库做动态 className 拼接
+- 禁止 inline style（除非动态计算的值）
+- 禁止在样式中硬编码 Ant Design 的设计变量，使用 LESS 变量
+
+## TypeScript 规范
+
+- 严格模式，禁止 `any`（不得已时必须加注释说明原因）
+- `interface` 定义对象类型，`type` 用于联合类型
+- `as const` 替代 `enum`
+- API 响应类型放在 `src/types/` 或就近的 `types.ts`
+- Props interface 命名：`{组件名}Props`
+
+## 状态管理
+
+```typescript
+// ✅ 全局状态：Umi Model（src/models/*.ts）
+// 文件导出一个自定义 hook
+const useGlobalModel = () => {
+  const [count, setCount] = useState(0);
+  return { count, setCount };
+};
+export default useGlobalModel;
+
+// 使用：
+const { count } = useModel('global');
+```
+
+```typescript
+// ✅ 复杂状态：Redux Toolkit（src/store/slices/*.ts）
+import { createSlice } from '@reduxjs/toolkit';
+
+const mySlice = createSlice({
+  name: 'myFeature',
+  initialState: { /* ... */ },
+  reducers: { /* ... */ },
+});
+```
+
+优先使用 Umi Model，只在需要复杂状态管理时使用 Redux Toolkit。
+
+## 文件大小约束
+
+| 类型 | 建议上限 | 超出怎么办 |
+|------|----------|-----------|
+| 组件文件 | 200 行 | 拆子组件 |
+| hook 文件 | 100 行 | 拆更小的 hook |
+| 工具函数文件 | 150 行 | 按功能拆文件 |
+| 类型定义文件 | 不限 | 按模块拆文件 |

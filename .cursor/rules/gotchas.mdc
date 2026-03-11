@@ -1,0 +1,102 @@
+---
+description: 项目踩坑记录和已知陷阱，避免 AI 反复犯相同错误
+globs:
+alwaysApply: true
+---
+
+# 踩坑记录
+
+## Umi Max 相关
+
+### 路由必须在 .umirc.ts 注册
+Umi Max 使用配置式路由，新建页面后**必须**在 `.umirc.ts` 的 `routes` 数组中添加路由配置，否则页面无法访问。
+
+```typescript
+// .umirc.ts
+routes: [
+  {
+    name: '页面名',
+    path: '/page-path',
+    component: './PageDir',  // 指向 src/pages/PageDir/index.tsx
+  },
+]
+```
+
+### useModel 必须对应 src/models/ 下的文件
+`useModel('global')` 对应 `src/models/global.ts`。文件名即为 model 名。
+
+### Umi Max 的内置插件
+项目已开启的插件（在 `.umirc.ts` 中配置）：
+- `antd: {}` — Ant Design 集成
+- `access: {}` — 权限管理
+- `model: {}` — 全局数据流
+- `initialState: {}` — 全局初始状态
+- `request: {}` — 请求方案
+
+使用这些功能时直接从 `@umijs/max` 导入，不要额外安装包。
+
+### 不要安装 react / react-dom
+Umi Max 内置了 React，不要在 `package.json` 中额外安装 `react` 和 `react-dom`。
+
+### postinstall 包含 submodule 初始化
+`postinstall` 脚本包含 `git submodule update --init`，首次安装会自动初始化设计文件 submodule。
+
+## Ant Design v5 相关
+
+### CSS-in-JS 而非 LESS 变量
+Ant Design v5 已迁移到 CSS-in-JS（@ant-design/cssinjs），但本项目仍使用 LESS 全局样式。覆盖 antd 样式时：
+- ✅ 优先使用 antd 的 `ConfigProvider` 和 `theme` 配置
+- ✅ 其次使用 `:global(.ant-xxx)` 覆盖
+- ❌ 不要直接修改 antd 的 LESS 变量（v5 已废弃）
+
+### ProComponents 路径
+`@ant-design/pro-components` 已经是统一入口，不要单独安装 `@ant-design/pro-table` 等包。
+
+```typescript
+// ✅ 统一从 pro-components 导入
+import { PageContainer, ProTable } from '@ant-design/pro-components';
+
+// ❌ 不要这样
+import { ProTable } from '@ant-design/pro-table';
+```
+
+## Redux Toolkit 相关
+
+### Provider 已在 Layout 中配置
+`src/layouts/index.tsx` 已经包裹了 `<Provider store={store}>`，页面组件中直接使用 `useSelector` / `useDispatch` 即可，不需要再包裹 Provider。
+
+### Redux vs Umi Model 选择
+- 简单状态共享 → `useModel`
+- 复杂状态（大量 slice、中间件） → Redux Toolkit
+- 不要混用同一份数据的管理方式
+
+## 样式相关
+
+### LESS 和 SCSS 混用
+项目同时存在 `.less` 和 `.module.scss` 文件。新代码优先使用 LESS 以保持一致，除非有强隔离需求才用 `.module.scss`。
+
+### classnames 用法
+项目使用 `classnames` 而非 `clsx`，保持一致：
+```typescript
+import classNames from 'classnames';
+// ✅ 使用 classNames
+className={classNames(styles.card, { [styles.active]: isActive })}
+```
+
+## Pencil 设计稿相关
+
+### .pen 文件不能用 read_file 读取
+Pencil 的 `.pen` 文件是加密的，必须通过 Pencil MCP 工具（`batch_get`、`get_screenshot` 等）读取。
+
+### 设计稿路径
+设计文件存放在 `pen/` 目录下，后续迁移到 `designs/` submodule。
+
+---
+
+## 迭代记录
+
+| 日期 | 问题 | 原因 | 修复 |
+|------|------|------|------|
+| — | — | — | — |
+
+> 开发过程中遇到 AI 反复犯的错，在此表格中补充。

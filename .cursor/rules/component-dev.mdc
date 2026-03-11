@@ -1,0 +1,166 @@
+---
+description: 组件开发规范，当用户要求创建新组件、重构组件、或输入 /component 指令时自动加载
+globs:
+alwaysApply: false
+---
+
+# 组件开发规范
+
+## 触发条件
+
+当用户要求创建新组件、封装公共组件、或输入 `/component` 指令时，遵循此规范。
+
+## 组件分类
+
+| 类型 | 位置 | 职责 | 示例 |
+|------|------|------|------|
+| 页面组件 | `src/pages/{Name}/index.tsx` | 组合模块，管理页面状态和路由 | `HomePage` |
+| 公共组件 | `src/components/{Name}/index.tsx` | 跨页面复用的 UI 组件 | `ContentSkeleton` |
+| 页面私有组件 | `src/pages/{Name}/components/` | 仅在该页面内使用 | `UserListItem` |
+| 布局组件 | `src/layouts/` | 控制整体布局 | `Layout` |
+
+## 公共组件文件结构
+
+```
+src/components/{ComponentName}/
+├── index.tsx           ← 组件实现 + 导出
+├── index.less          ← 样式（LESS）
+│   或 index.module.scss  ← CSS Modules（需要强隔离时）
+└── types.ts            ← 类型（可选，复杂类型单独抽出）
+```
+
+## 组件编写模板
+
+```typescript
+// src/components/MyComponent/index.tsx
+import { useCallback } from 'react';
+import classNames from 'classnames';
+import styles from './index.less';
+
+interface MyComponentProps {
+  /** 数据源 */
+  data: DataType;
+  /** 变体样式 */
+  variant?: 'default' | 'compact';
+  /** 点击事件 */
+  onClick?: (id: string) => void;
+  /** 自定义类名 */
+  className?: string;
+}
+
+const MyComponent = ({
+  data,
+  variant = 'default',
+  onClick,
+  className,
+}: MyComponentProps) => {
+  // 1. hooks
+  // 2. 派生状态
+  const displayName = data.name || '未命名';
+
+  // 3. 事件处理
+  const handleClick = useCallback(() => {
+    onClick?.(data.id);
+  }, [data.id, onClick]);
+
+  // 4. 渲染
+  return (
+    <div
+      className={classNames(styles.wrapper, styles[variant], className)}
+      onClick={handleClick}
+    >
+      {displayName}
+    </div>
+  );
+};
+
+export default MyComponent;
+```
+
+## Props 设计原则
+
+### 传对象，不拆散字段
+
+```typescript
+// ✅ 传入完整数据对象
+interface CardProps {
+  user: UserInfo;
+  onPress: (id: string) => void;
+}
+
+// ❌ 拆散成多个 prop
+interface CardProps {
+  name: string;
+  avatar: string;
+  age: number;
+  bio: string;
+}
+```
+
+### Props 数量控制
+
+- ≤ 5 个：正常
+- 6-7 个：注意，考虑聚合
+- ≥ 8 个：必须重构——拆组件或用组合模式
+
+### 合理的默认值
+
+```typescript
+const Button = ({
+  size = 'medium',
+  variant = 'primary',
+  disabled = false,
+}: ButtonProps) => { /* ... */ };
+```
+
+## 三态渲染（必须处理）
+
+任何涉及异步数据的组件都必须处理三种状态：
+
+```typescript
+const UserList = () => {
+  const { data, loading, error } = useRequest(fetchUserList);
+
+  if (loading) return <Skeleton />;
+  if (error) return <Result status="error" title="加载失败" />;
+  if (!data?.length) return <Empty description="暂无数据" />;
+
+  return <List dataSource={data} renderItem={/* ... */} />;
+};
+```
+
+## 空值防御
+
+```typescript
+// ✅ 所有可能为空的字段都要 fallback
+const name = user.name || '未命名';
+const avatar = user.avatarUrl || DEFAULT_AVATAR;
+const items = response.list ?? [];
+```
+
+## 抽组件的时机
+
+| 信号 | 动作 |
+|------|------|
+| 同一段 JSX 出现两次 | 提取为组件 |
+| render 超过 80 行 | 拆子组件 |
+| 某段 UI 有独立的状态逻辑 | 拆为有状态组件 |
+| 想给一段 UI 写注释说明"这是什么" | 它应该是个组件 |
+
+## 不要过早抽象
+
+```
+第一次写 → 直接写在当前文件
+第二次遇到类似 → 复制过来，微调
+第三次 → 提取公共组件（因为你已经知道变化点在哪了）
+```
+
+## 从设计稿生成组件
+
+当从 Pencil 设计稿（.pen 文件）生成组件时：
+
+1. 先用 `batch_get` 读取目标节点的完整结构
+2. 提取节点中的颜色、圆角、字号、间距等属性
+3. 将这些值映射为样式变量（LESS 变量或 CSS 自定义属性）
+4. 生成组件代码 + 样式文件
+5. 用 `get_screenshot` 对比验证
